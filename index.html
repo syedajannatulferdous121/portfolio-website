@@ -1,0 +1,1896 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syeda Jannatul Ferdous – Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- ✨ NEW: Google Font + Tilt library -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<!-- Icons & scroll-reveal -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+<!-- WebGL, charts, validation, GSAP, QR & chat -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/just-validate@latest/dist/just-validate.production.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<!-- Tawk.to live-chat widget -->
+<!-- EmailJS SDK (3 KB gz) -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+
+ <script src="https://unpkg.com/i18next@23.7.16/i18next.min.js"></script>
+
+  <!-- any other libraries you need (AOS, VanillaTilt, etc) *can* be deferred -->
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+<script defer src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+<script defer src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<!-- Lottie player for the animated robot -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18/dist/tween.umd.js"></script>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+
+
+
+
+
+</head>
+<body>
+ 
+
+
+<!-- 🔄 REPLACE the old <header class="site-header"> … </header>  -->
+<header class="hero" id="hero">
+  <main>
+    <div class="hero-wave"></div>
+
+  <!-- star-field (tiny canvas) -->
+  <canvas id="heroStars" aria-hidden="true"></canvas>
+
+  <!-- floating neon bubbles -->
+
+  <div class="hero-bubbles">
+    <i class="bubble fab fa-html5"      aria-label="HTML5"></i>
+    <i class="bubble fab fa-css3-alt"    aria-label="CSS3"></i>
+    <i class="bubble fab fa-js"          aria-label="JavaScript"></i>
+    <i class="bubble fab fa-python"      aria-label="Python"></i>
+    <i class="bubble fab fa-php"         aria-label="PHP"></i>
+    <i class="bubble fab fa-tailwind"    aria-label="Tailwind CSS"></i>
+    <i class="bubble fab fa-bootstrap"   aria-label="Bootstrap"></i>
+    <i class="bubble fab fa-react"       aria-label="React"></i>
+    <i class="bubble fab fa-angular"     aria-label="Angular"></i>
+    <i class="bubble fab fa-java"        aria-label="Java"></i>
+  <!-- etc… -->
+</div>
+
+
+
+
+  <!-- glass card with glitch-shimmer text -->
+<div class="hero-inner glass">
+
+  <h1 data-text="Syeda Jannatul Ferdous">Syeda Jannatul Ferdous</h1>
+  <p>M. Eng. Information &amp; Communications Engineering Student</p>
+
+  <!-- ③ Dark-mode toggle -->
+<!-- REPLACE: hero moon toggle -->
+<button id="themeToggle" class="bw-toggle" aria-label="Switch to black & white" title="Black & White">
+  <i class="fa-solid fa-moon"></i>
+</button>
+
+</div><!-- /.hero-inner  ❰❰ closes the glass card -->
+
+  <!-- 🤖 NEW 3-D robot (Lottie is now just a graceful fallback) -->
+  <!-- ▸ HERO – voice-assistant widget (fixed to bottom-right) -->
+<div id="botContainer" class="bot-container" aria-label="Play welcome message">
+  <!-- SVG fallback is kept for first paint – Lottie replaces it on load -->
+  <div id="botAvatar" class="bot-avatar">
+    <svg viewBox="0 0 64 64">
+      <rect   x="9"  y="18" width="46" height="34" rx="6"/>
+      <circle cx="24" cy="32" r="5"/><circle cx="40" cy="32" r="5"/>
+      <path   d="M24 42s4 4 8 4 8-4 8-4" fill="none"/>
+      <path   d="M18 6v6" stroke-linecap="round"/><circle cx="18" cy="6" r="3"/>
+    </svg>
+  </div>
+
+  <!-- spoken caption -->
+  <p id="botSpeech" class="bot-speech" aria-live="polite"></p>
+</div>
+
+
+<!-- keep the scroll cue that was already there -->
+<a class="hero-scroll" href="#education" aria-label="Scroll to next section">
+  <span>Scroll&nbsp;↓</span>
+</a>
+</header>
+
+
+
+
+
+<!-- ╭─ EDUCATION – COMPACT TIMELINE ───────────────────────╮ -->
+<section id="education" class="edu-hero slim">
+  <h2 class="edu-title">Education</h2>
+
+  <ol class="edu-timeline">
+    <li>
+      <h3>M. Eng. Information & Communication Engineering</h3>
+      <span class="edu-meta">Oct 2023 – Present | Berlin, DE</span>
+      <p>Berliner Hochschule für Technik</p>
+    </li>
+
+    <li>
+      <h3>B. Sc. Computer Science & Engineering</h3>
+      <span class="edu-meta">May 2016 – Jul 2020 | Dhaka, BD</span>
+      <p>Central Women’s University</p>
+    </li>
+  </ol>
+</section>
+
+
+
+<!-- ╭─ EXPERIENCE – IMMERSIVE STRIPE ─────────────────────╮ -->
+<section id="experience" class="exp-hero tilt" data-tilt-glare data-tilt-max="4">
+  <div class="exp-lights" aria-hidden="true"></div> <!-- blurred blobs -->
+  <canvas id="expHalo" aria-hidden="true"></canvas> <!-- glowing halo -->
+  <canvas id="expParticles" aria-hidden="true"></canvas> <!-- whooshing bits -->
+
+  <!-- heading -->
+  <h2 class="exp-title">Professional Journey</h2>
+
+  <ol class="exp-timeline compact">
+    <!-- — Student Assistant — -->
+    <li class="exp-item" data-aos="fade-up" data-aos-delay="50">
+      <div class="exp-card">
+        <header>
+          <h3>Student&nbsp;Assistant&nbsp;@&nbsp;DFKI</h3>
+          <time>Mar&nbsp;2024 – Present • Berlin</time>
+        </header>
+
+        <ul class="exp-tags">
+          <li><i class="fa-solid fa-code"></i> Python&nbsp;&amp;&nbsp;MATLAB</li>
+          <li><i class="fa-solid fa-chart-simple"></i> Data&nbsp;Visualization</li>
+          <li><i class="fa-brands fa-react"></i> React&nbsp;Dashboards</li>
+          <li><i class="fa-solid fa-laptop-code"></i> Frontend&nbsp;Development</li>
+        </ul>
+
+        <ul class="exp-desc">
+          <li>Performed NLP data analysis using Python (Pandas, NumPy, SpaCy, TF-IDF, regex) and MATLAB.</li>
+          <li>Developed interactive visualizations with Matplotlib and Plotly to support model validation.</li>
+          <li>Designed and implemented React-based dashboards and user interfaces.</li>
+        </ul>
+      </div>
+    </li>
+
+    <!-- — IT Executive — -->
+    <li class="exp-item" data-aos="fade-up" data-aos-delay="150">
+      <div class="exp-card">
+        <header>
+          <h3>IT&nbsp;Executive&nbsp;@&nbsp;BDTone24.com</h3>
+          <time>Jun&nbsp;2021 – Jun&nbsp;2023 • Dhaka</time>
+        </header>
+
+        <ul class="exp-tags">
+          <li><i class="fa-solid fa-code"></i> PHP&nbsp;&amp;&nbsp;MySQL</li>
+          <li><i class="fa-solid fa-layer-group"></i> Full-Stack&nbsp;Development</li>
+          <li><i class="fa-brands fa-bootstrap"></i> Bootstrap&nbsp;UI</li>
+          <li><i class="fa-solid fa-terminal"></i> Programming&nbsp;&amp;&nbsp;Scripting</li>
+        </ul>
+
+        <ul class="exp-desc">
+          <li>Built and maintained web applications using HTML5, CSS3, JavaScript, and PHP.</li>
+          <li>Improved front-end performance and usability by designing and optimizing UI components.</li>
+          <li>Collaborated with cross-functional teams to deliver secure and scalable software solutions.</li>
+        </ul>
+      </div>
+    </li>
+  </ol>
+</section>
+
+
+
+<!-- ╭─ SKILLS – COMPACT GRID ──────────────────────────────╮ -->
+<section id="skills" class="skills-hero compact">
+  <h2 class="skills-title">Skills&nbsp;&amp;&nbsp;Tooling</h2>
+
+  <div class="skills-grid-compact">
+    <!-- each “skill-cat” keeps its heading + chips -->
+    <div class="skill-cat">
+      <h3>Programming Languages</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fab fa-python"></i>Python</span>
+        <span class="skill-chip"><i class="fab fa-js"></i>JavaScript</span>
+        <span class="skill-chip"><i class="fas fa-code"></i>TypeScript</span>
+        <span class="skill-chip"><i class="fab fa-java"></i>Java</span>
+        <span class="skill-chip"><i class="fas fa-code"></i>C#</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <h3>Front-End</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fab fa-html5"></i>HTML5</span>
+        <span class="skill-chip"><i class="fab fa-css3-alt"></i>CSS3</span>
+        <span class="skill-chip"><i class="fab fa-react"></i>React</span>
+        <span class="skill-chip"><i class="fab fa-vuejs"></i>Vue</span>
+        <span class="skill-chip"><i class="fab fa-angular"></i>Angular</span>
+        <span class="skill-chip"><i class="fab fa-bootstrap"></i>Bootstrap</span>
+        <span class="skill-chip"><i class="fas fa-wind"></i>Tailwind</span>
+      </div>
+    </div>
+
+    <!-- …repeat the same tiny template for the rest of your categories … -->
+
+    <div class="skill-cat">
+      <h3>Back-End</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fab fa-node-js"></i>Node.js (Express)</span>
+        <span class="skill-chip"><i class="fab fa-php"></i>PHP</span>
+      </div>
+    </div>
+
+
+
+    <div class="skill-cat">
+      <h3>Databases</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fas fa-database"></i>MySQL</span>
+        <span class="skill-chip"><i class="fas fa-server"></i>SQL Server</span>
+      </div>
+    </div>
+
+
+
+    <div class="skill-cat">
+      <h3>Testing</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fas fa-vial"></i>Jest (unit)</span>
+        <span class="skill-chip"><i class="fas fa-vials"></i>Cypress (UI)</span>
+        <span class="skill-chip"><i class="fas fa-hand-paper"></i>Manual Testing</span>
+      </div>
+    </div>
+
+
+
+    <div class="skill-cat">
+      <h3>APIs &amp; Data</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fas fa-plug"></i>RESTful APIs</span>
+        <span class="skill-chip"><i class="fas fa-file-code"></i>JSON</span>
+        <span class="skill-chip"><i class="fas fa-bolt"></i> Axios</span>
+      </div>
+    </div>
+
+
+
+    <div class="skill-cat">
+      <h3>Version Control &amp; IDEs</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fab fa-git-alt"></i>Git</span>
+        <span class="skill-chip"><i class="fab fa-github"></i>GitHub</span>
+        <span class="skill-chip"><i class="fab fa-npm"></i>NPM</span>
+        <span class="skill-chip"><i class="fas fa-code-branch"></i>Jupyter</span>
+        <span class="skill-chip"><i class="fas fa-laptop-code"></i>VS Code</span>
+      </div>
+    </div>
+
+
+<div class="skill-cat">
+      <h3>UI/UX</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fab fa-figma"></i>Figma</span>
+        <span class="skill-chip"><i class="fas fa-adobe"></i>Adobe XD</span>
+        <span class="skill-chip"><i class="fas fa-paint-brush"></i>Creative Suite</span>
+      </div>
+    </div>
+
+
+<div class="skill-cat">
+      <h3>Operating Systems</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fas fa-desktop"></i>Linux / Windows / macOS</span>
+      </div>
+    </div>
+
+
+<div class="skill-cat">
+      <h3>Soft Skills</h3>
+      <div class="chip-cloud">
+        <span class="skill-chip"><i class="fas fa-users"></i>Teamwork</span>
+        <span class="skill-chip"><i class="fas fa-comments"></i>Communication</span>
+        <span class="skill-chip"><i class="fas fa-sync-alt"></i>Adaptability</span>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</section>
+
+
+
+
+
+
+<!-- ╭─ PROJECTS – IMMERSIVE STRIPE ─────────────────────────╮ -->
+<!-- ╭─ PROJECTS – IMMERSIVE STRIPE  · v2 (two-tab layout) ──╮ -->
+<section id="projects" class="proj-hero">
+
+  <!-- dreamy nebula + star-tunnel layers (unchanged) -->
+  <div   class="proj-lights"  aria-hidden="true"></div>
+  <canvas id="projTunnel"     aria-hidden="true"></canvas>
+
+  <h2 class="proj-title">Selected Projects</h2>
+
+  <!-- ▸ pill-tabs switcher -->
+  <ul class="proj-nav nav nav-pills justify-content-center mb-4" id="projTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="soft-tab"
+              data-bs-toggle="pill" data-bs-target="#soft-pane"
+              type="button" role="tab">Software</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="hard-tab"
+              data-bs-toggle="pill" data-bs-target="#hard-pane"
+              type="button" role="tab">Hardware</button>
+    </li>
+  </ul>
+
+  <!-- ▸ tab-panes -->
+  <div class="tab-content" id="projTabContent">
+
+    <!-- ––– Software stack ––– -->
+    <div class="tab-pane fade show active" id="soft-pane" role="tabpanel" aria-labelledby="soft-tab">
+      <div class="proj-grid">
+        <!-- Risk Dashboard -->
+<!-- Risk Prediction Dashboard (What-If Decision Support Tool) -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+   data-title="Risk Prediction Dashboard"
+   data-subtitle="JavaScript (ES6+) • REST API • Chart.js • HTML5 • CSS3 • Bootstrap • JSON Data Handling • Data Visualization"
+   data-desc="Designed and developed an interactive clinical risk prediction dashboard featuring a 'What-If' Decision Support Tool. The system dynamically recalculates and updates graft loss, rejection, and infection risk scores based on real-time changes in the control panel. Integrated REST API calls to load and process patient data from JSON datasets, implemented responsive and accessible layouts with Bootstrap, and built multi-tab Chart.js (v4) visualizations enhanced with annotation layers. Focused on fast data rendering, smooth transitions, and clear visual communication to support informed clinical decision-making."
+   data-images="images/risk/risk1.PNG|images/risk/risk2.PNG|images/risk/risk3.PNG|images/risk/risk4.PNG"
+   data-video="video/risk_dashboard.mp4">
+  <div class="card-face card-front">
+    <img src="video/risk.PNG" alt="Risk Prediction Dashboard cover">
+    <h3>Risk Prediction Dashboard</h3>
+  </div>
+  <div class="card-face card-back">
+    <p><i class="fa-solid fa-chart-line"></i> JavaScript (ES6+) • REST API • Chart.js (v4 + Annotation Plugin) • HTML5 • CSS3 • Bootstrap • JSON Data Handling • Responsive Design • Data Visualization</p>
+    <p class="mini">Real-time medical risk analysis with interactive 'What-If' controls and advanced charting.</p>
+  </div>
+</a>
+
+
+
+<!-- MEDINYM (Outlier Docs & Words Website) -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+   data-title="MEDINYM"
+   data-subtitle="HTML5 • CSS3/SCSS • JavaScript (ES6+) • Bootstrap • Responsive Web Design • Swiper.js • AOS (Animate On Scroll) • Google Maps Embed API • UI/UX Design • Custom Logo Design • Typography & Color System • Accessibility (ARIA) • Cross-Browser Optimization • Performance Optimization"
+   data-desc="Designed and developed the official public website for the MEDINYM research project, presenting outlier document and outlier word analyses in an engaging, user-friendly format. Crafted a custom project logo and cohesive visual identity with refined typography, color palette, and responsive layouts. Implemented animated gradient sections, grid/list publication views, motivation/goal pages, and an interactive contact panel with embedded Google Maps. Integrated smooth scroll animations, Swiper.js carousels, and modular ES6 components for tabs, filters, and media galleries. Delivered a fully accessible, cross-browser-optimized experience with a focus on clarity, aesthetics, and performance."
+   data-images="images/medinym1.PNG|images/medinym3.PNG|images/medinym4.PNG|images/medinym7.PNG|images/medinym8.PNG|images/medinym9.PNG|images/medinym10.PNG|images/medinym11.PNG|images/medinym12.PNG"
+   data-video="video/medinym.mp4">
+  <div class="card-face card-front">
+    <img src="video/medinym.png" alt="MEDINYM cover">
+    <h3>MEDINYM</h3>
+  </div>
+  <div class="card-face card-back">
+    <p><i class="fa-solid fa-code"></i> HTML5 • CSS3/SCSS • JavaScript (ES6+) • Bootstrap • Responsive Web Design • Swiper.js • AOS (Animate On Scroll) • Google Maps Embed API • UI/UX Design • Custom Logo Design • Typography & Color System • Accessibility (ARIA) • Cross-Browser Optimization • Performance Optimization</p>
+    <p class="mini">Research project site with custom branding, responsive UI, smooth animations, media galleries, and interactive maps.</p>
+  </div>
+</a>
+
+
+
+<!-- Outlier Document (OIDF/IDF NLP Analyzer) -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+   data-title="Outlier Document"
+   data-subtitle="Python • Flask • Pandas • NumPy • SciPy • scikit-learn • spaCy • NLTK • Matplotlib • D3.js • Bootstrap • jQuery/AJAX"
+   data-desc="Built a Python web app to surface anomalous documents in large clinical text using OIDF/IDF rarity scores. Implemented advanced NLP preprocessing (regex cleaning, lemmatization, POS-tag filtering) with spaCy & NLTK and statistical rarity scoring with NumPy/SciPy. Interactive Matplotlib histogram (mean/median/std) with D3.js shaded SD regions, AJAX filtering/sorting, CSV upload, sticky headers, and color-coded in-text highlights of the rarest terms. Fully responsive and keyboard-accessible UI."   data-images="images/outlier_doc/outlier1.PNG|images/outlier_doc/outlier11.PNG|images/outlier_doc/outlier2.PNG|images/outlier_doc/outlier3.PNG|images/outlier_doc/outlier4.PNG|images/outlier_doc/outlier5.PNG|images/outlier_doc/outlier6.PNG|images/outlier_doc/outlier7.PNG|images/outlier_doc/outlier8.PNG|images/outlier_doc/outlier9.PNG"
+   data-video="video/outlier_doc.mp4">
+  <div class="card-face card-front">
+    <img src="video/outlier_doc.png" alt="Outlier Document cover">
+    <h3>Outlier Document</h3>
+  </div>
+  <div class="card-face card-back">
+    <p><i class="fa-brands fa-python"></i> Flask • Pandas • NumPy • SciPy • scikit-learn • spaCy • NLTK • Matplotlib • D3.js • Bootstrap • jQuery/AJAX</p>
+    <p class="mini">OIDF/IDF-based document rarity analysis with dynamic charts, sliders, and in-context highlights.</p>
+  </div>
+</a>
+
+
+
+<!-- Outlier Word (NLP Rarity Analysis Tool) -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+   data-title="Outlier Word"
+   data-subtitle="Python • Flask • Pandas • NumPy • spaCy • NLTK • Matplotlib • Bootstrap • jQuery/AJAX • autocorrect"
+   data-desc="IDF-based NLP tool that identifies rare/outlier words in clinical text datasets. Features CSV upload, optional spell correction, regex cleaning, lemmatization with POS filtering (nouns/PROPN), interactive top-N term slider, rarity score histogram with mean/median/std lines, and in-context highlighting — all in a responsive, accessible UI."
+   data-images="images/outlier_word/ow1.PNG|images/outlier_word/ow2.PNG|images/outlier_word/ow3.PNG|images/outlier_word/ow4.PNG|images/outlier_word/ow5.PNG|images/outlier_word/ow6.PNG"
+   data-video="video/outlier_word.mp4">
+  <div class="card-face card-front">
+    <img src="video/outlier_word.png" alt="Outlier Word cover">
+    <h3>Outlier Word</h3>
+  </div>
+  <div class="card-face card-back">
+    <p><i class="fa-brands fa-python"></i> Python • Flask • Pandas • NumPy • spaCy • NLTK • Matplotlib • Bootstrap • jQuery/AJAX • autocorrect</p>
+    <p class="mini">NLP rarity analysis with CSV upload, rarity histogram, top-N term filtering, and in-context highlights.</p>
+  </div>
+</a>
+
+
+
+<!-- Enjoyable Learning (fixed: title/subtitle/desc feed the modal) -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+
+   data-title="Enjoyable Learning"
+   data-subtitle="PHP • MySQL • JavaScript • Bootstrap • HTML5 • CSS3 • UI/UX Design"
+   data-desc="Kid-friendly e-learning platform with audio rhymes, video lessons, bite-size mini-games, a curated digital book library, and an interactive schools map. Built with secure auth, clean navigation, responsive layouts, and accessible media players."
+   data-images="images/Enjoyable_learning/1.PNG|images/Enjoyable_learning/2.PNG|images/Enjoyable_learning/3.PNG|images/Enjoyable_learning/4.PNG|images/Enjoyable_learning/5.PNG|images/Enjoyable_learning/6.PNG|images/Enjoyable_learning/7.PNG|images/Enjoyable_learning/8.PNG|images/Enjoyable_learning/9.PNG|images/Enjoyable_learning/10.PNG|images/Enjoyable_learning/11.PNG|images/Enjoyable_learning/12.PNG|images/Enjoyable_learning/13.PNG|images/Enjoyable_learning/14.PNG|images/Enjoyable_learning/15.PNG|images/Enjoyable_learning/16.PNG|images/Enjoyable_learning/17.PNG|images/Enjoyable_learning/18.PNG|images/Enjoyable_learning/19.PNG|images/Enjoyable_learning/20.PNG|images/Enjoyable_learning/21.PNG|images/Enjoyable_learning/22.PNG|images/Enjoyable_learning/23.PNG|images/Enjoyable_learning/24.PNG|images/Enjoyable_learning/25.PNG|images/Enjoyable_learning/26.PNG|images/Enjoyable_learning/27.PNG|images/Enjoyable_learning/28.PNG|images/Enjoyable_learning/29.PNG|images/Enjoyable_learning/30.PNG|images/Enjoyable_learning/31.PNG|images/Enjoyable_learning/32.PNG"
+   data-video="video/enjoyable_learning.mp4">
+  <div class="card-face card-front">
+    <img src="video/enjoyable_learning.png" alt="Enjoyable Learning cover">
+    <h3>Enjoyable Learning</h3>
+  </div>
+  <div class="card-face card-back">
+    <p><i class="fa-solid fa-children" aria-hidden="true"></i> PHP • MySQL • JavaScript • Bootstrap • HTML5 • CSS3 • UI/UX Design</p>
+    <p class="mini">Audio &amp; video lessons, mini-games, digital books, and an interactive schools map</p>
+  </div>
+</a>
+
+
+<!-- NLP4Health Project -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+   data-title="NLP4Health"
+   data-subtitle="HTML • CSS • JavaScript • Bootstrap •  Responsive Web Design • Cross-Browser Compatibility • Git"
+   data-desc="Developed a fully responsive and visually engaging website for the DFKI NLP4Health research team. The platform showcases ongoing and past projects, team profiles, datasets, publications, teaching activities, and thesis opportunities designed for clarity, accessibility, and professional presentation, while meeting the specific requirements of supervisors."
+   data-images="images/NLP4Health/nlp1.png|images/NLP4Health/nlp2.png|images/NLP4Health/nlp3.png|images/NLP4Health/nlp4.png|images/NLP4Health/nlp5.png|images/NLP4Health/nlp6.png|images/NLP4Health/nlp7.png"
+   data-video="video/NLP4Health.mp4">
+
+  <div class="card-face card-front">
+    <img src="video/NLP4Health.png" alt="NLP4Health cover">
+    <h3>NLP4Health</h3>
+  </div>
+
+  <div class="card-face card-back">
+    <p><i class="fa-solid fa-laptop-code"></i> HTML • CSS • JavaScript • Bootstrap • Responsive Web Design • Cross-Browser Compatibility • Git</p>
+    <p class="mini">
+      Developed a fully responsive website for the DFKI NLP4Health research team, 
+      showcasing projects, team profiles, datasets, publications, and teaching activities.
+    </p>
+  </div>
+</a>
+
+
+
+
+      </div><!-- /.proj-grid -->
+    </div><!-- /.tab-pane Software -->
+
+
+    <!-- ––– Hardware stack ––– -->
+    <div class="tab-pane fade" id="hard-pane" role="tabpanel" aria-labelledby="hard-tab">
+      <div class="proj-grid hard-grid">
+        <!-- Myoelectric Prosthetic -->
+        <!-- Myoelectric Prosthetic -->
+<!-- 3D Printed Myoelectric Prosthetic Hand -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+   data-title="Myoelectric Prosthetic Hand"
+   data-subtitle="3D Printing • sEMG Signal Processing • Arduino IDE • MATLAB • Signal Filtering (Band-pass, Notch) • Envelope Detection • SVM Classifier • Feature Extraction (Time/Frequency) • PWM Motor Control • Denavit–Hartenberg Kinematics • Torque Optimization • PLA/ABS Mechanical Design • Li-Po Power Management • CAD"
+   data-desc="Designed and built a low-cost 3D-printed myoelectric prosthetic hand. Captured surface EMG (sEMG), performed real-time signal conditioning (band-pass/Notch, rectification, envelope), extracted time–frequency features, and classified gestures with an SVM to drive a 2-DoF prototype. Implemented Denavit–Hartenberg kinematics, torque-balanced linkages, and Arduino-based motor control with safe PWM, current limiting, and sleep-mode power management. Portable Li-Po pack with boost/BMS delivers hours of untethered use. PLA parts optimized for printability and quick replacement."
+   data-images="images/hand/1.PNG|images/hand/2.PNG"
+   data-video="video/3d_hand.mp4">
+  <div class="card-face card-front">
+    <img src="video/3dh.png" alt="Myoelectric Prosthetic Hand cover">
+    <h3>Myoelectric Prosthetic Hand</h3>
+  </div>
+  <div class="card-face card-back">
+    <p><i class="fa-solid fa-handshake-angle"></i> 3D Printing • sEMG Signal Processing • Arduino IDE • MATLAB • Filtering & Feature Extraction • SVM Classifier • PWM Motor Control • Kinematics • CAD • Power Management</p>
+    <p class="mini">Real-time sEMG → gesture control </p>
+  </div>
+</a>
+
+
+<!-- Brain Wave Wheelchair -->
+<a href="#"
+   class="proj-card tilt"
+   data-tilt data-tilt-max="7"
+   data-bs-toggle="modal" data-bs-target="#projectModal"
+   data-title="Brain Wave Wheelchair"
+   data-subtitle="EEG • MATLAB • Arduino • IoT • GSM/GPS • Signal Processing • Embedded Systems • Real-time Control"
+   data-desc="Developed a Brain–Computer Interface (BCI) wheelchair system enabling mobility for paralyzed patients through EEG-based control. Integrated BrainSense EEG sensor for real-time brainwave acquisition, MATLAB-driven signal preprocessing (FFT, bandpass filtering), and classification for directional control (forward, backward, left, right). Designed a low-latency embedded pipeline using Arduino to relay commands to motor drivers. Implemented GPS tracking and GSM auto-alert for emergencies, with live location sharing. Built fail-safe stop mechanisms, noise-resistant signal acquisition, and optimized wireless communication for reliable, low-power operation."
+   data-images="images/bw/bw1.jpg|images/bw/bw2.jpg|images/bw/bw3.JPG|images/bw/bw4.JPG">
+  <div class="card-face card-front">
+    <img src="video/bw.png" alt="Brain Wave Wheelchair cover">
+    <h3>Brain Wave Wheelchair</h3>
+  </div>
+  <div class="card-face card-back">
+    <p><i class="fa-solid fa-wave-square"></i> EEG • MATLAB • Arduino • IoT</p>
+    <p class="mini">BCI wheelchair with GPS/GSM & emergency stop</p>
+  </div>
+</a>
+
+
+      </div><!-- /.proj-grid -->
+    </div><!-- /.tab-pane Hardware -->
+
+  </div><!-- /.tab-content -->
+</section>
+<!-- ╰────────────────────────────────────────────────────────╯ -->
+
+<!-- Reusable Project Modal (for all Selected Projects) -->
+<!-- Reusable Project Modal (v2 • pro look) -->
+<div class="modal fade proj-modal pro-modal" id="projectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content pro-shell border-0 rounded-4 overflow-hidden">
+
+      <!-- Header -->
+      <div class="modal-header pro-head text-white">
+        <div class="d-flex flex-column">
+          <h3 class="m-0" id="projTitle">Project</h3>
+          <small class="opacity-75" id="projSubtitle"></small>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body p-0">
+        <!-- Glass tabs -->
+        <ul class="nav nav-pills proj-tabs pro-tabs px-3 pt-3" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#proj-desc" type="button" role="tab" aria-controls="proj-desc" aria-selected="true">
+              <i class="fa-regular fa-file-lines me-1"></i> Description
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#proj-gallery" type="button" role="tab" aria-controls="proj-gallery" aria-selected="false">
+              <i class="fa-regular fa-images me-1"></i> Pictures
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#proj-video" type="button" role="tab" aria-controls="proj-video" aria-selected="false">
+              <i class="fa-solid fa-circle-play me-1"></i> Demo
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content pro-content">
+          <!-- Description (PRO v2) -->
+<div class="tab-pane fade show active" id="proj-desc" role="tabpanel" tabindex="0">
+  <div class="p-4 p-md-5 pro-desc pro-v2">
+    <!-- JS builds everything inside this container -->
+    <div id="projDesc" class="pro-desc-body"></div>
+  </div>
+</div>
+
+
+          <!-- Gallery -->
+          <div class="tab-pane fade" id="proj-gallery" role="tabpanel" tabindex="0">
+            <div class="pro-media">
+              <div class="proj-swiper swiper">
+                <div class="swiper-wrapper" id="projSlides"><!-- injected by JS --></div>
+
+                <!-- gradient frame + controls -->
+                <div class="swiper-pagination"></div>
+                <button class="swiper-button-prev" aria-label="Previous"></button>
+                <button class="swiper-button-next" aria-label="Next"></button>
+
+                <!-- subtle progress ribbon -->
+                <div class="pro-progress"><span></span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video -->
+          <div class="tab-pane fade" id="proj-video" role="tabpanel" tabindex="0">
+            <div class="ratio ratio-16x9 pro-media" id="projVideoBox">
+              <!-- If MP4: we use this <video>. If YouTube: we insert an <iframe> here. -->
+              <video id="projVideo" controls playsinline preload="metadata"></video>
+            </div>
+            <p class="small text-center text-muted py-2">
+              Tip: You can pass a YouTube link or an MP4 URL via each card’s <code>data-video</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- ╭─ UI / UX • Posters & Visuals ─────────────────────────╮ -->
+<section id="uiux" class="uiux-hero">
+  <h2 class="proj-title">UI / UX • Posters &amp; Visuals</h2>
+
+  <div class="uiux-gallery-container">
+    <button class="uiux-nav uiux-prev" aria-label="Previous slide">‹</button>
+
+    <div class="uiux-gallery" aria-label="UI/UX gallery">
+      <!-- Each figure is focusable & opens the lightbox -->
+      <figure class="uiux-slide" role="button" tabindex="0" data-index="0">
+        <img src="images/ui/ui1.png" alt="Fin-Tech Poster" data-full="images/ui/ui1.png">
+        <figcaption>
+          <h3>Enjoyable Learning Cover</h3>
+          <p>Figma • Illustrator</p>
+        </figcaption>
+      </figure>
+
+      <figure class="uiux-slide" role="button" tabindex="0" data-index="1">
+        <img src="images/ui/ui2.png" alt="Analytics Dashboard" data-full="images/ui/ui2.png">
+        <figcaption>
+          <h3>Interactive Prototype of E-Learning App</h3>
+          <p>Figma • Adobe Illustrator • React</p>
+        </figcaption>
+      </figure>
+
+      <figure class="uiux-slide" role="button" tabindex="0" data-index="2">
+        <img src="images/ui/ui3.png" alt="Conference Poster" data-full="images/ui/ui3.png">
+        <figcaption>
+          <h3>Scala Computer Club T-Shirt Design</h3>
+          <p>Canva • Photoshop</p>
+        </figcaption>
+      </figure>
+
+      <figure class="uiux-slide" role="button" tabindex="0" data-index="3">
+        <img src="images/ui/ui5.png" alt="Mobile App Flow" data-full="images/ui/ui5.png">
+        <figcaption>
+          <h3>Med-Care Mobile Flow</h3>
+          <p>FigJam • ProtoPie</p>
+        </figcaption>
+      </figure>
+    </div>
+
+    <button class="uiux-nav uiux-next" aria-label="Next slide">›</button>
+  </div>
+</section>
+<!-- ╰────────────────────────────────────────────────────────╯ -->
+<!-- ╭─ UI/UX Lightbox Modal (Swiper + Zoom) ─────────────────╮ -->
+<!-- ╭─ UI/UX Lightbox Modal (no autoplay, direct download) ─────────╮ -->
+<div class="modal fade uiux-modal" id="uiuxModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content uiux-shell border-0 rounded-4 overflow-hidden">
+      <div class="modal-header uiux-head text-white">
+        <div class="d-flex flex-column">
+          <h3 class="m-0">UI / UX — Full View</h3>
+          <small class="opacity-75" id="uiuxMeta"></small>
+        </div>
+        <div class="d-flex align-items-center gap-2 me-2">
+          <!-- ⬇️ Download now handled via JS; no new tab -->
+          
+          <!-- ⬇️ Removed fullscreen button on purpose -->
+          <button class="btn-close btn-close-white ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div class="modal-body p-0">
+        <div class="uiux-swiper-wrap">
+          <div class="swiper uiux-swiper" id="uiuxSwiper">
+            <div class="swiper-wrapper" id="uiuxSlides"><!-- injected by JS --></div>
+            <div class="swiper-pagination"></div>
+            <button class="swiper-button-prev" aria-label="Previous"></button>
+            <button class="swiper-button-next" aria-label="Next"></button>
+            <div class="uiux-progress"><span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="uiux-caption text-center py-2 small text-muted" id="uiuxCaption"></div>
+    </div>
+  </div>
+</div>
+<!-- ╰──────────────────────────────────────────────────────────────╯ -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- ╭─ RESEARCH & PUBLICATIONS – IMMERSIVE STRIPE ─────────╮ -->
+<section id="publications" class="pub-hero">
+
+  <!-- atmospheric layers -->
+  <div class="pub-bg"     aria-hidden="true"></div>
+  <div class="pub-lights" aria-hidden="true"></div>
+  <canvas id="pubConstellation" aria-hidden="true"></canvas>
+
+  <h2 class="pub-title">Research &amp; Publications</h2>
+
+  <div class="pub-grid">
+    <!-- ① Paper link ─ Prosthetic Hand -->
+    <a href="book/3d_hand.pdf" target="_blank"
+       class="pub-card tilt" data-tilt data-tilt-max="7">
+      <div class="pub-cover" style="background-image:url('images/paper/p1.png')"></div>
+      <div class="pub-info">
+        <h3>3D Printed Myoelectric Prosthetic Hand</h3>
+        <p class="pub-meta">ResearchGate · 2021</p>
+        <span class="pub-link">Read full paper ↗</span>
+      </div>
+    </a>
+
+    <!-- ② Modal trigger ─ Brain-Wave Wheelchair -->
+    <!-- Brain-Wave Wheelchair – opens modal with slideshow -->
+<button class="pub-card tilt" data-bs-toggle="modal" data-bs-target="#wheelModal">
+  <div class="pub-cover" style="background-image:url('images/paper/p2.png')"></div>
+  <div class="pub-info">
+    <h3>Brain-Wave Wheelchair with GPS &amp; GSM</h3>
+    <p class="pub-meta">Elsevier NeuroTech · 2022</p>
+    <span class="pub-link">Project details ↗</span>
+  </div>
+</button>
+
+<!-- 6 G Evaluation – opens details-only modal -->
+<!-- 🔁 Publications card (replace the old 6G card) -->
+<button class="pub-card tilt" data-bs-toggle="modal" data-bs-target="#dockModal">
+  <div class="pub-cover" style="background-image:url('images/paper/p3.png')"></div>
+  <div class="pub-info">
+    <h3>Dockerized Network Testbed</h3>
+    <p class="pub-meta">Ongoing Research · 2025</p>
+    <span class="pub-link">Concept &amp; plan ↗</span>
+  </div>
+</button>
+
+
+
+  </div>
+</section>
+
+<!-- ╭─ Brain-Wave Wheelchair · Ongoing Research ───────────────────╮ -->
+<div class="modal modal-glass fade" id="wheelModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content glassy overflow-hidden p-0 border-0">
+
+      <!-- Header (soft gradient + badge) -->
+      <div class="modal-header border-0 text-white py-3 px-4"
+           style="background: linear-gradient(135deg,#4f46e5,#06b6d4);">
+        <div class="d-flex flex-column">
+          <h3 class="m-0 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-wave-square fa-lg"></i>
+            Brain-Wave Wheelchair
+          </h3>
+          <small class="opacity-75">EEG • MATLAB • Arduino • GSM/GPS • Real-time Control</small>
+        </div>
+        <span class="badge bg-warning text-dark ms-auto">Ongoing Research</span>
+        <button type="button" class="btn-close btn-close-white ms-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body p-0">
+        <div class="row g-0">
+          <!-- Gallery (left) -->
+          <div class="col-lg-6">
+            <div class="wheelSwiper swiper h-100" aria-label="EEG wheelchair photos">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img src="images/bw/bw1.jpg" class="w-100 h-100 object-fit-cover" alt="Wheelchair prototype — front view">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/bw/bw2.jpg" class="w-100 h-100 object-fit-cover" alt="Wheelchair prototype — side view with EEG rig">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/bw/bw3.JPG" class="w-100 h-100 object-fit-cover" alt="Control electronics and wiring">
+                </div>
+                <div class="swiper-slide">
+                  <img src="images/bw/bw4.JPG" class="w-100 h-100 object-fit-cover" alt="Sensor placement and assembly">
+                </div>
+              </div>
+              <div class="swiper-pagination position-absolute bottom-0 start-0 end-0 mb-2"></div>
+            </div>
+          </div>
+
+          <!-- Details (right) -->
+          <div class="col-lg-6 p-4 p-md-5 bg-light">
+            <!-- lead -->
+            <p class="lead mb-3">
+              A Brain–Computer Interface (BCI) control system enabling hands-free wheelchair navigation via EEG.
+              The pipeline combines BrainSense signal capture, MATLAB-based filtering/feature extraction, embedded
+              motor control on Arduino, and GSM/GPS for emergency alerts with live location sharing.
+            </p>
+
+            <!-- quick chips -->
+            <ul class="list-unstyled d-flex flex-wrap gap-2 mb-3">
+              <li class="badge rounded-pill bg-secondary-subtle text-secondary">EEG (BrainSense)</li>
+              <li class="badge rounded-pill bg-secondary-subtle text-secondary">MATLAB (FFT, band-pass, notch)</li>
+              <li class="badge rounded-pill bg-secondary-subtle text-secondary">Arduino motor control</li>
+              <li class="badge rounded-pill bg-secondary-subtle text-secondary">GSM/GPS emergency link</li>
+              <li class="badge rounded-pill bg-secondary-subtle text-secondary">Fail-safe stop</li>
+            </ul>
+
+            <!-- key metrics (prototype – pending validation) -->
+<div class="row g-3 mb-3">
+  <div class="col-6">
+    <div class="border rounded-3 p-3 h-100 bg-white">
+      <div class="small text-muted">Avg. command latency</div>
+      <div class="h4 m-0 text-secondary">TBD</div>
+      <div class="small text-muted">Measurement in progress</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="border rounded-3 p-3 h-100 bg-white">
+      <div class="small text-muted">Stop-command reliability</div>
+      <div class="h4 m-0 text-secondary">TBD</div>
+      <div class="small text-muted">Awaiting structured tests</div>
+    </div>
+  </div>
+</div>
+
+
+            <!-- highlights -->
+            <ul class="ps-3 mb-3">
+              <li>Directional control (forward/back/left/right) derived from EEG features.</li>
+              <li>GSM panic button auto-texts caregivers with GPS location.</li>
+              <li>Noise-aware acquisition and low-latency command path with fail-safe stop.</li>
+            </ul>
+
+            <!-- research status -->
+            <div class="alert alert-info small mb-0" role="alert">
+              <strong>Status:</strong> Manuscript in preparation; results are from internal prototype testing and are not yet peer-reviewed.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer border-0 bg-light-subtle py-3 px-4">
+        <a href="mailto:syedajannatulferdous121@gmail.com?subject=Brain-Wave%20Wheelchair%20—%20Research%20Inquiry"
+           class="btn btn-primary">
+          <i class="fa-solid fa-envelope me-1"></i> Request abstract / collaborate
+        </a>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- ╰──────────────────────────────────────────────────────────────╯ -->
+
+
+<!-- ╭─ 6 G Evaluation MODAL ─────────────────────────────╮ -->
+<!-- ╭─ Dockerized Network Testbed · Modal ───────────────────╮ -->
+<div class="modal fade" id="dockModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- wider -->
+    <div class="modal-content border-0 overflow-hidden modal-pro">
+
+      <!-- Header -->
+      <div class="modal-pro-head d-flex align-items-center justify-content-between px-4 py-3">
+        <h3 class="m-0 d-flex align-items-center gap-2">
+          <i class="fa-brands fa-docker"></i>
+          <span>Dockerized Network Testbed</span>
+          <span class="badge bg-ongoing rounded-pill ms-2">Ongoing Research</span>
+        </h3>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body p-4 p-lg-5">
+
+        <!-- status -->
+        <div class="alert alert-warning shadow-sm small mb-4" role="alert">
+          <strong>Status:</strong> concept &amp; design phase — no public repository or measured results yet.
+        </div>
+
+        <!-- one-liner -->
+        <p class="lead mb-4">
+          A reproducible, container-based <strong>network testbed</strong> for protocol &amp; service benchmarking.
+          Planned: parameterized topologies via <strong>Docker&nbsp;Compose</strong>, link emulation with
+          <strong>tc/netem</strong> (delay/jitter/loss/rate), automated load (<strong>iperf3 · wrk · k6</strong>),
+          and a <strong>Prometheus&nbsp;+&nbsp;Grafana</strong> telemetry stack. One-command runs, CI-ready,
+          seedable experiments.
+        </p>
+
+        <!-- two-column content -->
+        <div class="row g-4">
+          <!-- left: tech stack & scope -->
+          <div class="col-lg-6">
+            <h5 class="section-label"><i class="fa-solid fa-cubes-stacked me-2"></i>Proposed stack</h5>
+            <ul class="list-unstyled d-flex flex-wrap gap-2 mb-4">
+              <li class="badge pill-soft text-orange">
+  <i class="fa-brands fa-docker me-1"></i> Docker &amp; Compose
+</li>
+
+              <li class="badge pill-soft text-primary"><i class="fa-solid fa-network-wired me-1"></i> tc / netem · iproute2</li>
+              <li class="badge pill-soft text-success"><i class="fa-solid fa-gauge me-1"></i> Prometheus · node_exporter</li>
+              <li class="badge pill-soft text-warning"><i class="fa-solid fa-chart-line me-1"></i> Grafana Dashboards</li>
+              <li class="badge pill-soft text-secondary"><i class="fa-solid fa-signal me-1"></i> iperf3 · wrk · k6</li>
+              <li class="badge pill-soft text-dark"><i class="fa-solid fa-terminal me-1"></i> Make · Bash · Python</li>
+            </ul>
+
+            <h5 class="section-label"><i class="fa-solid fa-list-check me-2"></i>Scope (planned)</h5>
+            <ul class="ps-3 small nice-list">
+              <li>Compose manifests with per-link <code>tc</code> profiles &amp; seeded randomness.</li>
+              <li>Versioned Prometheus scrapes + Grafana JSON dashboards for instant bring-up.</li>
+              <li>Make targets: <code>make up</code>/<code>down</code>/<code>bench</code>/<code>plot</code> — export CSV/PNG artifacts.</li>
+              <li>Optional Traefik/Nginx gateway for L7 tests &amp; controlled fault injection.</li>
+            </ul>
+          </div>
+
+          <!-- right: KPI targets -->
+          <div class="col-lg-6">
+            <h5 class="section-label"><i class="fa-solid fa-bullseye me-2"></i>Planned KPIs (targets)</h5>
+
+            <div class="row g-3">
+              <div class="col-12">
+                <div class="kpi-card">
+                  <div class="kpi-top">
+                    <span class="kpi-title">Reproducibility</span>
+                    <span class="kpi-val">Target: 95%</span>
+                  </div>
+                  <div class="progress rounded-1">
+                    <div class="progress-bar bg-success" style="width:95%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="kpi-card">
+                  <div class="kpi-top">
+                    <span class="kpi-title">Automation coverage</span>
+                    <span class="kpi-val">Target: 90%</span>
+                  </div>
+                  <div class="progress rounded-1">
+                    <div class="progress-bar bg-info" style="width:90%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="kpi-card">
+                  <div class="kpi-top">
+                    <span class="kpi-title">Topology scale — containers</span>
+                    <span class="kpi-val">Target: 70+</span>
+                  </div>
+                  <div class="progress rounded-1">
+                    <div class="progress-bar bg-warning" style="width:70%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="small text-muted mt-2 mb-0">
+              KPI bars show <em>targets</em> for evaluation; they are not measured results.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-pro-foot d-flex flex-wrap gap-2 justify-content-between align-items-center px-4 py-3">
+        <div class="small text-muted">Design document available on request.</div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-secondary" disabled>
+            <i class="fa-solid fa-file-pdf me-1"></i> Pre-print — coming soon
+          </button>
+          <a href="mailto:syedajannatulferdous121@gmail.com" class="btn btn-outline-primary">
+            <i class="fa-solid fa-envelope me-1"></i> Collaborate / Request details
+          </a>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- ╰────────────────────────────────────────────────────────╯ -->
+
+
+
+<!-- ╰────────────────────────────────────────────────────────╯ -->
+
+
+
+<!-- ╭─ CONTACT – IMMERSIVE STRIPE ─────────────────────────╮ -->
+<section id="contact" class="contact-hero" data-aos="fade-up">
+
+  <!-- background layers -->
+  <canvas id="contactParticles" aria-hidden="true"></canvas>
+  <div class="contact-bg"     aria-hidden="true"></div>
+  <div class="contact-lights" aria-hidden="true"></div>
+
+  <h2 class="contact-title">Contact &amp; Languages</h2>
+
+  <ul class="contact-grid">
+    <!-- 🔗 Social + Form + QR -->
+    <li class="contact-card tilt" data-tilt data-tilt-glare data-tilt-max="8" data-aos="zoom-in">
+      <h3>Let’s Connect</h3>
+
+      <!-- contact-content wrapper -->
+      <div class="contact-content">
+
+        <!-- 1️⃣ Contact Form -->
+        <form id="contactForm" class="contact-form">
+          <input type="text"  name="user_name"   placeholder="Your Name"    required />
+          <input type="email" name="user_email"  placeholder="Your Email"   required />
+          <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+
+        <!-- 2️⃣ QR Code: both static & dynamic -->
+        
+        <div id="qrCode" class="qr-code" title="Scan to chat on WhatsApp">
+          <!-- static fallback; comment-out if you only want dynamic -->
+<img
+  src="images/whatsapp-qr.jpg"
+  alt="WhatsApp QR – scan to message me"
+/>
+
+        </div>
+
+        <!-- 3️⃣ Social Icons -->
+        <nav class="social-icons">
+          <a href="mailto:syedajannatulferdous121@gmail.com">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+          <a href="tel:+4917636389870">
+            <i class="fa-solid fa-phone"></i>
+          </a>
+          <a href="https://linkedin.com/in/syedajannatulferdous" target="_blank">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/syedajannatulferdous121" target="_blank">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        </nav>
+
+      </div>
+    </li>
+
+
+        <!-- 🌐 Language Rings -->
+<!-- 🌐 Language planet system -->
+<!-- 🌐 Language planet system -->
+<li class="lang-card tilt" >
+  <h3>Languages</h3>
+
+  <div class="lang-orbit">
+    <div class="lang-core">
+      <i class="fa-solid fa-globe"></i>
+    </div>
+    <div class="lang-sat lang-eng">
+      <span>English<br><small>Fluent</small></span>
+    </div>
+    <div class="lang-sat lang-ger">
+      <span>German<br><small>Intermediate</small></span>
+    </div>
+    <div class="lang-sat lang-ben">
+      <span>Bengali<br><small>Native</small></span>
+    </div>
+  </div>
+</li>
+
+
+
+      </ul>
+    </section>
+
+  </main>
+  <!-- ★ end main -->
+
+  <div id="scrollProgress" aria-hidden="true"></div>
+
+  <canvas id="skillsChart" width="300" height="300" style="display:none"></canvas>
+
+    <!-- ✨ Back-to-top button -->
+<!-- Bottom-to-top: progress-ring rocket -->
+<button id="toTop" class="toTop" aria-label="Back to top">
+  <svg class="ring" viewBox="0 0 52 52" aria-hidden="true">
+    <circle class="bg" cx="26" cy="26" r="24"></circle>
+    <circle class="fg" cx="26" cy="26" r="24"></circle>
+  </svg>
+
+  <!-- icons stack: arrow by default, rocket when launching -->
+  <span class="glyph arrow" aria-hidden="true">
+    <i class="fa-solid fa-arrow-up"></i>
+  </span>
+  <span class="glyph rocket" aria-hidden="true">
+    <i class="fa-solid fa-rocket"></i>
+    <i class="flame"></i>
+  </span>
+
+  <span class="hint">Top</span>
+</button>
+
+
+
+<!-- Bootstrap Footer -->
+<footer class="bg-dark text-light py-5">
+  <div class="container">
+    <div class="row gy-4">
+      <!-- About -->
+      <div class="col-md-6">
+        <h5 class="text-uppercase mb-3">About Me</h5>
+        <p>I’m Syeda Jannatul Ferdous, an M.Eng. student in Information & Communications Engineering at BHT Berlin. Passionate about building intuitive web interfaces, data-driven dashboards, and inclusive tech solutions that empower users globally.</p>
+        <p class="small">© 2025 Syeda Jannatul Ferdous. All rights reserved.</p>
+      </div>
+      <!-- Quick Links & Contact -->
+      <div class="col-md-6">
+        <div class="row">
+          <!-- Quick Links -->
+          <div class="col-6">
+            <h6 class="mb-3">Quick Links</h6>
+            <ul class="list-unstyled">
+              <li><a href="#education" class="text-light text-decoration-none">Education</a></li>
+              <li><a href="#experience" class="text-light text-decoration-none">Experience</a></li>
+              <li><a href="#skills" class="text-light text-decoration-none">Skills</a></li>
+              <li><a href="#projects" class="text-light text-decoration-none">Projects</a></li>
+              <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
+            </ul>
+          </div>
+          <!-- Contact -->
+          <div class="col-6">
+            <h6 class="mb-3">Get In Touch</h6>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-envelope me-2"></i><a href="mailto:syedajannatulferdous121@gmail.com" class="text-light text-decoration-none">Email Me</a></li>
+              <li><i class="fas fa-phone me-2"></i><a href="tel:+4917636389870" class="text-light text-decoration-none">+49 176 3638 9870</a></li>
+              <li class="mt-2">
+                <a href="https://linkedin.com/in/syedajannatulferdous" class="btn btn-outline-light btn-sm me-2" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/syedajannatulferdous121" class="btn btn-outline-light btn-sm me-2" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://twitter.com/yourhandle" class="btn btn-outline-light btn-sm"><i class="fab fa-twitter"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* UI/UX gallery – strip autoplay kept, MODAL has no autoplay + rock-solid direct download */
+document.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.querySelector('.uiux-gallery');
+  const prevBtn = document.querySelector('.uiux-prev');
+  const nextBtn = document.querySelector('.uiux-next');
+  const slides  = Array.from(document.querySelectorAll('.uiux-slide'));
+  if (!gallery || !slides.length) return;
+
+  const firstSlide = slides[0];
+  const gapPx = 16; // must match CSS gap
+
+  // hop exactly one card (slide width + gap)
+  const slideW = () => {
+    const w = firstSlide ? firstSlide.getBoundingClientRect().width : gallery.clientWidth * 0.8;
+    return w + gapPx;
+  };
+  const hop = dir => gallery.scrollBy({ left: dir * slideW(), behavior: 'smooth' });
+
+  prevBtn?.addEventListener('click', () => hop(-1));
+  nextBtn?.addEventListener('click', () => hop( 1));
+
+  // small strip autoplay (pause on intent)
+  const start = () => setInterval(() => hop(1), 4000);
+  let timer = start();
+  ['mouseenter','focusin'].forEach(evt => gallery.addEventListener(evt, () => clearInterval(timer)));
+  ['mouseleave','focusout'].forEach(evt => gallery.addEventListener(evt, () => (timer = start())));
+
+  // loop back smoothly at the end
+  gallery.addEventListener('scroll', () => {
+    const atEnd = gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 2;
+    if (atEnd) setTimeout(() => gallery.scrollTo({ left: 0, behavior: 'smooth' }), 500);
+  });
+
+  // keep hop distance fresh on resize
+  const ro = new ResizeObserver(() => {/* recompute via slideW() on use */});
+  if (firstSlide) ro.observe(firstSlide);
+
+  /* ── LIGHTBOX (no autoplay) ───────────────────────────────── */
+  const modalEl    = document.getElementById('uiuxModal');
+  const metaEl     = document.getElementById('uiuxMeta');
+  const capEl      = document.getElementById('uiuxCaption');
+  const dlBtn      = document.getElementById('uiuxDownload');
+  const slidesWrap = document.getElementById('uiuxSlides');
+
+  if (!modalEl || !window.bootstrap) return;
+  const bsModal = new bootstrap.Modal(modalEl);
+
+  // collect items (src + captions) from the strip
+  const items = slides.map(fig => {
+    const img = fig.querySelector('img');
+    const h3  = fig.querySelector('figcaption h3');
+    const p   = fig.querySelector('figcaption p');
+    return {
+      src: (img?.dataset.full || img?.src || ''),
+      title: h3?.textContent?.trim() || '',
+      desc: p?.textContent?.trim() || ''
+    };
+  });
+
+  let swiper = null;
+
+  function buildSlides(initialIndex = 0) {
+    slidesWrap.innerHTML = '';
+    const frag = document.createDocumentFragment();
+
+    items.forEach(it => {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      slide.innerHTML = `
+        <div class="swiper-zoom-container">
+          <img src="${it.src}" alt="${it.title || 'UI/UX image'}">
+        </div>`;
+      frag.appendChild(slide);
+    });
+
+    slidesWrap.appendChild(frag);
+
+    if (window.Swiper) {
+      swiper = new Swiper('#uiuxSwiper', {
+        loop: items.length > 1,
+        speed: 700,
+        initialSlide: Math.max(0, Math.min(initialIndex, items.length - 1)),
+        zoom: { maxRatio: 3 },
+        keyboard: { enabled: true },
+        // ⛔ no autoplay in fullscreen
+        pagination: { el: modalEl.querySelector('.swiper-pagination'), clickable: true },
+        navigation: {
+          nextEl: modalEl.querySelector('.swiper-button-next'),
+          prevEl: modalEl.querySelector('.swiper-button-prev')
+        },
+        on: { init: updateUI, slideChange: updateUI }
+      });
+    } else {
+      updateUIWithIndex(initialIndex);
+    }
+  }
+
+  function fileNameFrom(url) {
+    try {
+      const clean = url.split('#')[0].split('?')[0];
+      const last = clean.substring(clean.lastIndexOf('/') + 1) || 'image';
+      return last.includes('.') ? last : (last + '.png');
+    } catch { return 'image.png'; }
+  }
+
+  // ⭐ bulletproof download (no new tab): draw to canvas → blob → save
+  function downloadViaCanvas(url, name) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';        // safe if same-origin or CORS allowed
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width  = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob((blob) => {
+            if (!blob) return reject(new Error('Canvas toBlob failed'));
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = name || 'image.png';
+            document.body.appendChild(a);
+            a.click();
+            URL.revokeObjectURL(a.href);
+            a.remove();
+            resolve();
+          }, 'image/png', 0.96);
+        } catch (e) { reject(e); }
+      };
+      img.onerror = () => reject(new Error('Image load failed'));
+      // make absolute to avoid relative path oddities
+      img.src = new URL(url, location.href).href;
+    });
+  }
+
+  // fallback if canvas route fails (e.g., strict CORS)
+  async function downloadFallback(url, name) {
+    try {
+      const res = await fetch(url, { mode: 'cors' });
+      if (!res.ok) throw new Error('Network error');
+      const blob = await res.blob();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name || fileNameFrom(url);
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(a.href);
+      a.remove();
+    } catch {
+      // last resort: still force a download attempt (may prompt open in some browsers)
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = name || fileNameFrom(url);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  }
+
+  async function downloadCurrent() {
+    const idx = swiper ? swiper.realIndex : 0;
+    const it  = items[idx] || items[0];
+    const url = new URL(it.src, location.href).href;
+    const name = fileNameFrom(url);
+    try {
+      await downloadViaCanvas(url, name);
+    } catch {
+      await downloadFallback(url, name);
+    }
+  }
+
+  function updateUI() {
+    if (!swiper) return;
+    updateUIWithIndex(swiper.realIndex);
+  }
+
+  function updateUIWithIndex(i) {
+    const it = items[i] || items[0];
+    capEl.textContent = it.title ? `${it.title}${it.desc ? ' — ' + it.desc : ''}` : (it.desc || '');
+    metaEl.textContent = `${(i + 1)} / ${items.length}`;
+
+    // wire direct download to current slide
+    if (dlBtn) {
+      dlBtn.onclick = (ev) => { ev.preventDefault(); downloadCurrent(); };
+    }
+
+    const bar = modalEl.querySelector('.uiux-progress span');
+    if (bar) bar.style.width = `${((i + 1) / items.length) * 100}%`;
+  }
+
+  // open on click / Enter
+  slides.forEach((fig, idx) => {
+    const open = () => { buildSlides(idx); bsModal.show(); };
+    fig.addEventListener('click', open);
+    fig.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+  });
+
+  // cleanup on hide
+  modalEl.addEventListener('hidden.bs.modal', () => {
+    try { swiper?.destroy(true, true); } catch {}
+    swiper = null;
+    slidesWrap.innerHTML = '';
+  });
+});
+
+
+/* ─── HERO ROBOT GREETING (click-to-speak only) ─── */
+/* ─── HERO · voice assistant (hero-scoped + robust cleanup) ─── */
+(() => {
+  const hero   = document.getElementById('hero');
+  const box    = document.getElementById('botContainer');
+  const avatar = document.getElementById('botAvatar');      // optional
+  const bubble = document.getElementById('botSpeech');
+  if (!hero || !box || !bubble || !hero.contains(box)) return;
+
+  // 1) Text (same message you used)
+  const raw = `Hello, and welcome to the portfolio of Syeda Jannatul Ferdous. Here, you’ll find a selection of my work. For more information, please visit the Contact section to get in touch. Have a great day, and thank you for visiting!`;
+  const spoken = raw.replace(/\s+/g, ' ').trim();
+
+  // 2) Tokenize once (indices must match charIndex)
+  const tokens = Array.from(spoken.matchAll(/\S+/g), m => ({
+    start: m.index, end: m.index + m[0].length, word: m[0]
+  }));
+
+  // 3) Build bubble
+  bubble.innerHTML = tokens.map(t => `<span>${t.word}</span>`).join(' ');
+  const spans = Array.from(bubble.querySelectorAll('span'));
+
+  // 4) Utterance
+  const utter = new SpeechSynthesisUtterance(spoken);
+  utter.rate  = 0.95;
+  utter.pitch = 1.05;
+  utter.lang  = 'en-US';
+
+  const pickVoice = () => {
+    const voices = speechSynthesis.getVoices().filter(v => /en[-_](US|GB)/i.test(v.lang));
+    utter.voice  = voices.find(v => /Google|Microsoft|Alex/i.test(v.name)) || voices[0] || null;
+  };
+  if (speechSynthesis.getVoices().length) pickVoice();
+  speechSynthesis.onvoiceschanged = pickVoice;
+
+  // 5) State
+  let active = false;
+  let lastIdx = -1;
+  let gotBoundary = false;
+  let fallbackTimer = null;
+
+  const removeHi = () => spans.forEach(s => s.classList.remove('hi'));
+  const setHi = (i) => {
+    if (!active || i === lastIdx || i < 0 || i >= spans.length) return;
+    lastIdx = i;
+    removeHi();
+    spans[i].classList.add('hi');
+    if (avatar) { avatar.classList.remove('lip'); void avatar.offsetWidth; avatar.classList.add('lip'); }
+  };
+
+  const stopFallback = () => { if (fallbackTimer) { clearInterval(fallbackTimer); fallbackTimer = null; } };
+
+  const cleanup = () => {
+    active = false;
+    lastIdx = -1;
+    removeHi();
+    box.classList.remove('speaking');
+    stopFallback();
+  };
+
+  const hardStop = () => { try { speechSynthesis.cancel(); } catch {} cleanup(); };
+
+  // 6) Primary: boundary → instant highlight (no delay)
+  utter.onboundary = (e) => {
+    if (!active) return;
+    gotBoundary = true;
+    const i = tokens.findIndex(t => e.charIndex >= t.start && e.charIndex < t.end);
+    setHi(i);
+  };
+
+  // 7) Fallback (only if no boundaries appear shortly after start)
+  function startFallback() {
+    // Base ms per word (scaled by speech rate); slightly weight by word length
+    const base = 260 / Math.max(0.5, utter.rate);
+    let i = -1;
+    stopFallback();
+    fallbackTimer = setInterval(() => {
+      if (!active) return stopFallback();
+      i += 1;
+      if (i >= spans.length) { cleanup(); return; }
+      setHi(i);
+      // adapt next tick by length (short words a bit faster, long a bit slower)
+      const w = tokens[i].word;
+      const next = Math.max(140, Math.min(520, base * (0.85 + Math.min(w.length, 12) / 20)));
+      clearInterval(fallbackTimer);
+      fallbackTimer = setInterval(() => {
+        if (!active) return stopFallback();
+        i += 1;
+        if (i >= spans.length) { cleanup(); return; }
+        setHi(i);
+      }, next);
+    }, base);
+  }
+
+  utter.onstart = () => {
+    active = true;
+    gotBoundary = false;
+    box.classList.add('speaking');
+
+    // If no boundary within ~350ms, assume this voice/browser doesn’t emit them
+    setTimeout(() => { if (active && !gotBoundary && !fallbackTimer) startFallback(); }, 350);
+  };
+
+  utter.onend   = cleanup;
+  utter.onerror = cleanup;
+
+  // 8) Click-to-speak
+  box.addEventListener('click', () => {
+    try { speechSynthesis.cancel(); } catch {}
+    cleanup();       // reset any previous state
+    pickVoice();
+    setTimeout(() => speechSynthesis.speak(utter), 0);
+  });
+
+  // 9) Reveal widget
+  setTimeout(() => {
+    box.style.opacity = 1;
+    box.style.transform = 'none';
+    box.removeAttribute('aria-hidden');
+  }, 900);
+
+  // 10) Viewport guards
+  const io = new IntersectionObserver(([entry]) => {
+    if (!entry?.isIntersecting) hardStop();
+  }, { threshold: 0.05 });
+  io.observe(hero);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) hardStop();
+  });
+})();
+
+/* ─── Reusable Project Modal: data-driven (new) ───────────────── */
+/* ─── Reusable Project Modal: data-driven (robust) ───────────────── */
+/* Project Modal Controller — v2 (pro look, perfect sizing, robust) */
+(() => {
+  const modal = document.getElementById('projectModal');
+  if (!modal) return;
+
+  const titleEl    = modal.querySelector('#projTitle');
+  const subtitleEl = modal.querySelector('#projSubtitle');
+  const descEl     = modal.querySelector('#projDesc');
+  const slidesWrap = modal.querySelector('#projSlides');
+  const videoEl    = modal.querySelector('#projVideo');
+  const ratioBox   = modal.querySelector('#projVideoBox');
+
+  let swiper = null;
+  let currentVideo = '';
+  let iframeEl = null;
+
+  const ensureSwiper = () =>
+    new Promise(resolve => {
+      const tick = () => (window.Swiper ? resolve() : setTimeout(tick, 30));
+      tick();
+    });
+
+  const parseList = s =>
+    (s || '').split(/[|,]/).map(x => x.trim()).filter(Boolean);
+
+  const clearSlides = () => { slidesWrap.innerHTML = ''; };
+
+  const buildSlides = (images, title) => {
+    clearSlides();
+    if (!images.length) {
+      slidesWrap.innerHTML =
+        `<div class="swiper-slide d-flex align-items-center justify-content-center text-muted">
+           No pictures yet.
+         </div>`;
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    images.forEach(src => {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      const img = document.createElement('img');
+      img.src = src; img.alt = `${title} – image`;
+      img.loading = 'lazy'; img.decoding = 'async';
+      slide.appendChild(img); frag.appendChild(slide);
+    });
+    slidesWrap.appendChild(frag);
+  };
+
+  const destroySwiper = () => {
+    if (swiper) {
+      try { swiper.autoplay?.stop(); swiper.destroy(true,true); } catch {}
+      swiper = null;
+    }
+  };
+
+  const buildSwiper = () => {
+    destroySwiper();
+    swiper = new Swiper(modal.querySelector('.proj-swiper'), {
+      loop: true,
+      speed: 700,
+      slidesPerView: 1,
+      autoplay: { delay: 2800, disableOnInteraction: false },
+      pagination: { el: modal.querySelector('.swiper-pagination'), clickable: true },
+      navigation: {
+        nextEl: modal.querySelector('.swiper-button-next'),
+        prevEl: modal.querySelector('.swiper-button-prev')
+      },
+      observer: true, observeParents: true, keyboard: { enabled: true }
+    });
+
+    // Progress ribbon
+    const bar = modal.querySelector('.pro-progress span');
+    const total = () => swiper.slides.length - swiper.loopedSlides * 2;
+    const index = () => (swiper.realIndex + 1);
+    const update = () => { bar.style.width = `${(index() / Math.max(1,total()))*100}%`; };
+    update();
+    swiper.on('slideChangeTransitionEnd', update);
+  };
+
+  const isYouTube = url => /(?:youtube\.com|youtu\.be)/i.test(url);
+
+  const resetVideo = () => {
+    if (iframeEl) { try { iframeEl.src = 'about:blank'; } catch {} iframeEl.remove(); iframeEl = null; }
+    if (videoEl) {
+      try { videoEl.pause(); videoEl.removeAttribute('src'); videoEl.load(); } catch {}
+      videoEl.style.display = '';
+    }
+  };
+
+  const initVideo = (url) => {
+    resetVideo();
+    if (!url) return;
+    if (isYouTube(url)) {
+      const embed = url
+        .replace('watch?v=', 'embed/')
+        .replace('youtu.be/', 'www.youtube.com/embed/')
+        .split('&')[0];
+      iframeEl = document.createElement('iframe');
+      iframeEl.width = '100%'; iframeEl.height = '100%';
+      iframeEl.src = `${embed}?rel=0&modestbranding=1&autoplay=1&mute=1`;
+      iframeEl.title = 'Project demo video';
+      iframeEl.frameBorder = '0';
+      iframeEl.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframeEl.allowFullscreen = true;
+      videoEl.style.display = 'none';
+      ratioBox.appendChild(iframeEl);
+    } else {
+      videoEl.style.display = '';
+      videoEl.src = url; videoEl.load();
+    }
+  };
+
+  const chooseFirstTab = ({ desc, imgs, vid }) =>
+    desc ? '#proj-desc' : (imgs.length ? '#proj-gallery' : (vid ? '#proj-video' : '#proj-desc'));
+
+  /* ── helpers for Description tab ───────────────────────────── */
+  const esc = s => (s || "").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const splitStack = (s) => (s || "")
+    .split(/[•·|,\/]/).map(t => t.trim()).filter(Boolean);
+  const parsePairs = (s) => (s || "").split('|')
+    .map(x => x.split(':').map(y => y.trim()))
+    .filter(x => x[0] && x[1]);
+  const parseMetrics = (s) => parsePairs(s).map(([k,v]) => [k, Math.max(0, Math.min(100, parseFloat(v)))]);
+  const parseLinks   = (s) => parsePairs(s).map(([k,v]) => ({ label:k, url:v }));
+
+  function buildDesc({ title, subtitle, desc, images, video, extras={} }) {
+    const tags       = splitStack(subtitle);
+    const highlights = (extras.highlights || []).filter(Boolean);
+    const metrics    = extras.metrics || [];
+    const links      = extras.links || [];
+
+    const hasPics  = images.length > 0;
+    const hasVideo = !!video;
+
+    const html = `
+      <section class="pro-summary"><p class="m-0">${esc(desc)}</p></section>
+
+      <div class="pro-badges" aria-label="Tech stack">
+        ${tags.map(t => `<span class="pill"><i class="fa-solid fa-circle-dot"></i>${esc(t)}</span>`).join('')}
+      </div>
+
+      <div class="pro-cta">
+        ${hasPics  ? `<button class="btn-soft" data-switch="#proj-gallery"><i class="fa-regular fa-images me-1"></i>Pictures</button>` : ""}
+        ${hasVideo ? `<button class="btn-soft" data-switch="#proj-video"><i class="fa-solid fa-circle-play me-1"></i>Demo</button>` : ""}
+        <button class="btn-outline copy-desc" data-copy="${esc(desc)}"><i class="fa-regular fa-copy me-1"></i>Copy summary</button>
+        ${links.map(l => `<a class="btn btn-primary" target="_blank" rel="noopener" href="${esc(l.url)}">${esc(l.label)}</a>`).join('')}
+      </div>
+
+      <div class="pro-stats">
+        ${hasPics  ? `<span class="stat"><i class="fa-regular fa-image"></i> ${images.length} pictures</span>` : ""}
+        ${hasVideo ? `<span class="stat"><i class="fa-solid fa-video"></i> demo available</span>` : `<span class="stat"><i class="fa-regular fa-circle-xmark"></i> no video</span>`}
+      </div>
+
+      ${highlights.length ? `
+        <ul class="checklist" aria-label="Highlights">
+          ${highlights.map(h => `<li>${esc(h)}</li>`).join('')}
+        </ul>` : ""}
+
+      ${metrics.length ? `
+        <div class="pro-metrics" aria-label="Key metrics">
+          ${metrics.map(([label,val]) => `
+            <div class="pro-metric">
+              <span class="muted">${esc(label)}</span>
+              <div class="bar"><i style="--w:${val}%"></i></div>
+              <small>${val}%</small>
+            </div>`).join('')}
+        </div>` : ""}
+    `;
+
+    descEl.innerHTML = html;
+
+    // switch tabs
+    descEl.querySelectorAll('[data-switch]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-switch');
+        const tabBtn = modal.querySelector(`.proj-tabs [data-bs-target="${target}"]`);
+        bootstrap.Tab.getOrCreateInstance(tabBtn).show();
+      });
+    });
+
+    // copy summary
+    const copyBtn = descEl.querySelector('.copy-desc');
+    if (copyBtn && navigator.clipboard) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(copyBtn.getAttribute('data-copy') || '');
+          const old = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i class="fa-solid fa-check me-1"></i>Copied!';
+          setTimeout(() => copyBtn.innerHTML = old, 1400);
+        } catch {}
+      });
+    }
+
+    // animate metric bars once
+    requestAnimationFrame(() => {
+      descEl.querySelectorAll('.pro-metric .bar i').forEach(el => el.classList.add('go'));
+    });
+  }
+
+  // Populate modal from the clicked card
+  modal.addEventListener('show.bs.modal', async (ev) => {
+    const card = ev.relatedTarget;
+    const title    = card?.dataset.title    || 'Project';
+    const subtitle = card?.dataset.subtitle || '';
+    const desc     = card?.dataset.desc     || '';
+    const images   = parseList(card?.dataset.images);
+    const video    = card?.dataset.video    || '';
+
+    titleEl.textContent    = title;
+    subtitleEl.textContent = subtitle;
+
+    // Description (enhanced)
+    const extras = {
+      highlights: parseList(card?.dataset.highlights), // "A|B|C" (optional)
+      metrics   : parseMetrics(card?.dataset.metrics), // "Latency:92|Coverage:96" (optional)
+      links     : parseLinks(card?.dataset.links)      // "GitHub:https://...|Live:https://..." (optional)
+    };
+    buildDesc({ title, subtitle, desc, images, video, extras });
+
+    // pictures
+    buildSlides(images, title);
+
+    // video (lazy)
+    currentVideo = video;
+    resetVideo();
+
+    // default tab
+    const target = chooseFirstTab({ desc, imgs: images, vid: video });
+    const btn = modal.querySelector(`.proj-tabs [data-bs-target="${target}"]`);
+    bootstrap.Tab.getOrCreateInstance(btn).show();
+
+    await ensureSwiper();
+  });
+
+  // Tab behavior
+  modal.querySelectorAll('.proj-tabs [data-bs-toggle="pill"]').forEach(btn => {
+    btn.addEventListener('shown.bs.tab', (e) => {
+      const target = e.target.getAttribute('data-bs-target');
+
+      if (target === '#proj-gallery') {
+        buildSwiper();
+        swiper?.update(); swiper?.autoplay?.start();
+      } else {
+        swiper?.autoplay?.stop();
+      }
+
+      if (target === '#proj-video') {
+        initVideo(currentVideo);
+        if (currentVideo && !isYouTube(currentVideo)) {
+          videoEl.play().catch(()=>{});
+        }
+      } else {
+        try { videoEl.pause(); } catch {}
+      }
+
+      if (target === '#proj-desc') {
+        // re-trigger bar animation when user returns to Description
+        modal.querySelectorAll('#proj-desc .pro-metric .bar i').forEach(el => {
+          el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
+        });
+      }
+    });
+  });
+
+  // Cleanup on close
+  modal.addEventListener('hidden.bs.modal', () => {
+    destroySwiper();
+    resetVideo();
+    clearSlides();
+  });
+})();
+
+
+/* === Bottom-to-top rocket with progress ring ===================== */
+(() => {
+  const btn = document.getElementById('toTop');
+  if (!btn) return;
+
+  const fg = btn.querySelector('.ring .fg');
+  const r  = 24;                                  // matches SVG r
+  const C  = 2 * Math.PI * r;
+  fg.style.strokeDasharray  = `${C} ${C}`;
+  fg.style.strokeDashoffset = `${C}`;
+
+  const update = () => {
+    const h = document.documentElement;
+    const y = h.scrollTop || window.pageYOffset;
+    const max = h.scrollHeight - window.innerHeight;
+    const p = Math.max(0, Math.min(1, max ? y / max : 0));
+    fg.style.strokeDashoffset = `${C * (1 - p)}`;
+    if (y > 280) btn.classList.add('show'); else btn.classList.remove('show');
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+
+  const spawnSparks = (count = 16) => {
+    for (let k = 0; k < count; k++) {
+      const s = document.createElement('span');
+      s.className = 'spark';
+      const a = Math.random() * Math.PI * 2;
+      const d = 18 + Math.random() * 22;
+      s.style.setProperty('--x', `${Math.cos(a) * d}px`);
+      s.style.setProperty('--y', `${Math.sin(a) * d}px`);
+      s.style.setProperty('--t', `${480 + Math.random() * 420}ms`);
+      btn.appendChild(s);
+      setTimeout(() => s.remove(), 900);
+    }
+  };
+
+  const scrollToTop = () => {
+    btn.classList.add('launching');
+    spawnSparks(18);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // remove launching state when we reach the top
+    const tid = setInterval(() => {
+      const atTop = (document.documentElement.scrollTop || window.pageYOffset) <= 0;
+      if (atTop) { clearInterval(tid); setTimeout(() => btn.classList.remove('launching'), 380); }
+    }, 60);
+  };
+
+  btn.addEventListener('click', scrollToTop);
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); scrollToTop(); }
+  });
+})();
+
+// Black & White toggle (uses the existing #themeToggle button)
+  (function () {
+    const btn  = document.getElementById('themeToggle');
+    if (!btn) return;
+
+    const root = document.documentElement;
+    const KEY  = 'bw-mode'; // localStorage key to remember choice
+
+    const setIcon = () => {
+      const i = btn.querySelector('i');
+      const on = root.classList.contains('bw-mode');
+      // swap moon/sun so user knows what pressing will do next
+      i.classList.toggle('fa-moon', !on);
+      i.classList.toggle('fa-sun',  on);
+      btn.setAttribute('aria-label', on ? 'Switch to color' : 'Switch to black & white');
+      btn.title = on ? 'Color' : 'Black & White';
+    };
+
+    // Restore previous preference
+    if (localStorage.getItem(KEY) === '1') {
+      root.classList.add('bw-mode');
+    }
+    setIcon();
+
+    btn.addEventListener('click', () => {
+      root.classList.toggle('bw-mode');
+      const on = root.classList.contains('bw-mode');
+      localStorage.setItem(KEY, on ? '1' : '0');
+      setIcon();
+    });
+  })();
+
+
+</script>
+
+  <script src="script.js"></script>
+</body>
+</html>
