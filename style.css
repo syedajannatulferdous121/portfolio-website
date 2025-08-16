@@ -2227,15 +2227,7 @@ color: var(--bs-nav-pills-link-active-color) !important;
 .uiux-gallery .swiper-wrapper{ align-items: stretch; }
 .uiux-gallery .swiper-slide.uiux-slide{
   width: clamp(300px, 80vw, 560px) !important; /* fixed card width */
-  flex: 0 0 auto;
-  margin-right: 16px; /* equals your old gap (1rem) */
 }
-
-/* last slide has no phantom extra spacing */
-.uiux-gallery .uiux-slide.swiper-slide:last-child{ margin-right: 0; }
-
-/* if Swiper duplicates slides for looping, don’t open modal on those */
-.uiux-slide.swiper-slide-duplicate{ pointer-events: none; }
 
 /* Prev / Next buttons (unchanged) */
 .uiux-nav{
@@ -2263,7 +2255,10 @@ color: var(--bs-nav-pills-link-active-color) !important;
 
 /* We still clamp each card's width, Swiper will treat slides as 'auto' */
 .uiux-gallery .swiper-slide.uiux-slide{
-  width: clamp(300px, 80vw, 560px) !important;
+width: clamp(300px, 80vw, 560px) !important;
+ flex: 0 0 auto;
+ margin-right: 0 !important;  /* ⬅️ remove manual gap; Swiper adds spacing */
+ box-sizing: border-box;
 }
 
 
