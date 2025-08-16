@@ -2167,18 +2167,9 @@ color: var(--bs-nav-pills-link-active-color) !important;
 }
 
 .uiux-gallery{
-  display: flex;
-  gap: 1rem;
-  overflow-x: hidden;
-  scroll-snap-type: none;           /* no snap; we do precise centering */
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
   position: relative;
-    width: 100%;
+  width: 100%;
 }
-/* ui/ux strip – clones used for infinite loop */
-.uiux-slide.is-clone { pointer-events: none; }
-
 
 /* Swiper host inside the gallery */
 .uiux-strip{ width: 100%; }
