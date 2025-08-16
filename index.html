@@ -1205,12 +1205,13 @@ document.addEventListener('DOMContentLoaded', () => {
   stripEl.appendChild(wrapper);
 
   // Spin up Swiper for the strip
-  const stripSwiper = new Swiper(stripEl, {
     loop: figures.length > 1,
-    loopAdditionalSlides: 2,
+    loopedSlides: figures.length,       // ⬅️ make enough clones
+    loopAdditionalSlides: figures.length,
     slidesPerView: 'auto',
-    centeredSlides: true,
-    spaceBetween: 16,
+    centeredSlides: false,              // ⬅️ no side gaps during autoplay
+    centerInsufficientSlides: false,
+    spaceBetween: 16,                   // ⬅️ Swiper now controls the gap
     speed: 650,
     navigation: { nextEl: nextBtn, prevEl: prevBtn },
     autoplay: figures.length > 1 ? {
@@ -1218,7 +1219,11 @@ document.addEventListener('DOMContentLoaded', () => {
       disableOnInteraction: false,
       pauseOnMouseEnter: true
     } : false,
-    keyboard: { enabled: true }
+    keyboard: { enabled: true },
+    observer: true,                     // update on content/resize
+    observeParents: true,
+    watchSlidesProgress: true,
+    resizeObserver: true
   });
 
   /* ---------- 2) Lightbox modal (your design, no autoplay) ---------- */
