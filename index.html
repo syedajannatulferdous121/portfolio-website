@@ -1185,68 +1185,55 @@ data-video="https://youtu.be/1eFzQdk27HA?si=7A1luSoj8qPXrZcO">
 </footer>
 
 <script>
-/* UI/UX gallery – no layout shift, centered first card, gap-safe hop */
+/* UI/UX gallery — make the strip a Swiper (modal remains unchanged) */
 document.addEventListener('DOMContentLoaded', () => {
-  const gallery = document.querySelector('.uiux-gallery');
-  const prevBtn = document.querySelector('.uiux-prev');
-  const nextBtn = document.querySelector('.uiux-next');
-  const slides  = Array.from(document.querySelectorAll('.uiux-slide'));
-  if (!gallery || !slides.length) return;
+  const gallery   = document.querySelector('.uiux-gallery');
+  const prevBtn   = document.querySelector('.uiux-prev');
+  const nextBtn   = document.querySelector('.uiux-next');
+  let   figures   = Array.from(document.querySelectorAll('.uiux-slide'));
+  if (!gallery || !figures.length) return;
 
-  const firstSlide = slides[0];
+  /* ---------- Build a tiny Swiper for the strip (no HTML edits needed) ---------- */
+  // Create the Swiper DOM scaffold and move your <figure> cards inside
+  const strip = document.createElement('div');
+  strip.className = 'swiper uiux-strip';
+  const wrap = document.createElement('div');
+  wrap.className = 'swiper-wrapper';
+  strip.appendChild(wrap);
 
-  // read the actual computed gap so JS & CSS stay in sync
-  const getGap = () => {
-    const g = getComputedStyle(gallery).gap || '16px';
-    const n = parseFloat(g);
-    return Number.isFinite(n) ? n : 16;
-  };
+  figures.forEach(fig => { fig.classList.add('swiper-slide'); wrap.appendChild(fig); });
+  gallery.innerHTML = '';
+  gallery.appendChild(strip);
 
-  // width to hop = card width + gap (measured)
-  const slideW = () => firstSlide.getBoundingClientRect().width + getGap();
-
-  // center a specific slide index (used on load & when looping to start)
-  const centerIndex = (i) => {
-    const el = slides[Math.max(0, Math.min(i, slides.length - 1))];
-    const left = el.offsetLeft - (gallery.clientWidth - el.clientWidth) / 2;
-    gallery.scrollTo({ left, behavior: 'smooth' });
-  };
-
-  const hop = (dir) => gallery.scrollBy({ left: dir * slideW(), behavior: 'smooth' });
-
-  prevBtn?.addEventListener('click', () => hop(-1));
-  nextBtn?.addEventListener('click', () => hop( 1));
-
-  // autoplay for the strip (pause on intent)
-  const start = () => setInterval(() => hop(1), 4000);
-  let timer = start();
-  ['mouseenter','focusin'].forEach(evt => gallery.addEventListener(evt, () => clearInterval(timer)));
-  ['mouseleave','focusout'].forEach(evt => gallery.addEventListener(evt, () => (timer = start())));
-
-  // loop back smoothly at the end → center the first card (not hard-left)
-  gallery.addEventListener('scroll', () => {
-    const atEnd = gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 2;
-    if (atEnd) setTimeout(() => centerIndex(0), 400);
+  // init Swiper (we reuse the same library you already load for the modal)
+  const stripSwiper = new Swiper('.uiux-strip', {
+    slidesPerView: 1,
+    spaceBetween: 16,                // ≈ 1rem gap
+    centeredSlides: true,
+    loop: figures.length > 1,
+    navigation: { nextEl: nextBtn, prevEl: prevBtn },
+    keyboard: { enabled: true },
+    autoplay: { delay: 4000, disableOnInteraction: true, pauseOnMouseEnter: true },
+    speed: 650,
+    breakpoints: {
+      540:  { slidesPerView: 1.1 },
+      768:  { slidesPerView: 1.25 },
+      1024: { slidesPerView: 1.5  }
+    }
   });
 
-  // center first slide on load (Safari needed this for snap:center)
-  requestAnimationFrame(() => centerIndex(0));
-
-  // keep measurements fresh on resize
-  const ro = new ResizeObserver(() => {/* measurements are read on-demand */});
-  if (firstSlide) ro.observe(firstSlide);
-
-  /* ── LIGHTBOX (unchanged; no autoplay) ───────────────────── */
+  /* ---------- Lightbox (same as before, just uses the moved figures) ---------- */
+  figures = Array.from(document.querySelectorAll('.uiux-slide')); // after move
   const modalEl    = document.getElementById('uiuxModal');
   const metaEl     = document.getElementById('uiuxMeta');
   const capEl      = document.getElementById('uiuxCaption');
-  const dlBtn      = document.getElementById('uiuxDownload'); // optional; may be null
+  const dlBtn      = document.getElementById('uiuxDownload'); // may be null
   const slidesWrap = document.getElementById('uiuxSlides');
 
   if (!modalEl || !window.bootstrap) return;
   const bsModal = new bootstrap.Modal(modalEl);
 
-  const items = slides.map(fig => {
+  const items = figures.map(fig => {
     const img = fig.querySelector('img');
     const h3  = fig.querySelector('figcaption h3');
     const p   = fig.querySelector('figcaption p');
@@ -1259,10 +1246,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let swiper = null;
 
-  function buildSlides(initialIndex = 0) {
+  function buildSlides(initialIndex = 0){
     slidesWrap.innerHTML = '';
     const frag = document.createDocumentFragment();
-
     items.forEach(it => {
       const slide = document.createElement('div');
       slide.className = 'swiper-slide';
@@ -1272,10 +1258,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>`;
       frag.appendChild(slide);
     });
-
     slidesWrap.appendChild(frag);
 
-    if (window.Swiper) {
+    if (window.Swiper){
       swiper = new Swiper('#uiuxSwiper', {
         loop: items.length > 1,
         speed: 700,
@@ -1297,12 +1282,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function fileNameFrom(url){
     try{
       const clean = url.split('#')[0].split('?')[0];
-      const last = clean.substring(clean.lastIndexOf('/')+1) || 'image';
+      const last = clean.substring(clean.lastIndexOf('/') + 1) || 'image';
       return last.includes('.') ? last : (last + '.png');
     }catch{ return 'image.png'; }
   }
 
-  async function downloadViaCanvas(url, name){
+  // download helpers (same behaviour you had)
+  function downloadViaCanvas(url, name){
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
@@ -1314,7 +1300,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0);
           canvas.toBlob((blob) => {
-            if(!blob) return reject(new Error('Canvas toBlob failed'));
+            if (!blob) return reject(new Error('Canvas toBlob failed'));
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = name || 'image.png';
@@ -1362,8 +1348,7 @@ document.addEventListener('DOMContentLoaded', () => {
     catch{ await downloadFallback(url, name); }
   }
 
-  function updateUI(){ if(!swiper) return; updateUIWithIndex(swiper.realIndex); }
-
+  function updateUI(){ if (!swiper) return; updateUIWithIndex(swiper.realIndex); }
   function updateUIWithIndex(i){
     const it = items[i] || items[0];
     capEl.textContent = it.title ? `${it.title}${it.desc ? ' — ' + it.desc : ''}` : (it.desc || '');
@@ -1373,7 +1358,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bar) bar.style.width = `${((i + 1) / items.length) * 100}%`;
   }
 
-  slides.forEach((fig, idx) => {
+  // Open modal on click / Enter
+  figures.forEach((fig, idx) => {
     const open = () => { buildSlides(idx); bsModal.show(); };
     fig.addEventListener('click', open);
     fig.addEventListener('keydown', e => {
@@ -1381,6 +1367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // cleanup on hide
   modalEl.addEventListener('hidden.bs.modal', () => {
     try{ swiper?.destroy(true, true); }catch{}
     swiper = null;
