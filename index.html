@@ -1185,7 +1185,7 @@ data-video="https://youtu.be/1eFzQdk27HA?si=7A1luSoj8qPXrZcO">
 </footer>
 
 <script>
-/* UI/UX gallery – strip autoplay kept, MODAL has no autoplay + rock-solid direct download */
+/* UI/UX gallery – no layout shift, centered first card, gap-safe hop */
 document.addEventListener('DOMContentLoaded', () => {
   const gallery = document.querySelector('.uiux-gallery');
   const prevBtn = document.querySelector('.uiux-prev');
@@ -1194,45 +1194,58 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!gallery || !slides.length) return;
 
   const firstSlide = slides[0];
-  const gapPx = 16; // must match CSS gap
 
-  // hop exactly one card (slide width + gap)
-  const slideW = () => {
-    const w = firstSlide ? firstSlide.getBoundingClientRect().width : gallery.clientWidth * 0.8;
-    return w + gapPx;
+  // read the actual computed gap so JS & CSS stay in sync
+  const getGap = () => {
+    const g = getComputedStyle(gallery).gap || '16px';
+    const n = parseFloat(g);
+    return Number.isFinite(n) ? n : 16;
   };
-  const hop = dir => gallery.scrollBy({ left: dir * slideW(), behavior: 'smooth' });
+
+  // width to hop = card width + gap (measured)
+  const slideW = () => firstSlide.getBoundingClientRect().width + getGap();
+
+  // center a specific slide index (used on load & when looping to start)
+  const centerIndex = (i) => {
+    const el = slides[Math.max(0, Math.min(i, slides.length - 1))];
+    const left = el.offsetLeft - (gallery.clientWidth - el.clientWidth) / 2;
+    gallery.scrollTo({ left, behavior: 'smooth' });
+  };
+
+  const hop = (dir) => gallery.scrollBy({ left: dir * slideW(), behavior: 'smooth' });
 
   prevBtn?.addEventListener('click', () => hop(-1));
   nextBtn?.addEventListener('click', () => hop( 1));
 
-  // small strip autoplay (pause on intent)
+  // autoplay for the strip (pause on intent)
   const start = () => setInterval(() => hop(1), 4000);
   let timer = start();
   ['mouseenter','focusin'].forEach(evt => gallery.addEventListener(evt, () => clearInterval(timer)));
   ['mouseleave','focusout'].forEach(evt => gallery.addEventListener(evt, () => (timer = start())));
 
-  // loop back smoothly at the end
+  // loop back smoothly at the end → center the first card (not hard-left)
   gallery.addEventListener('scroll', () => {
     const atEnd = gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 2;
-    if (atEnd) setTimeout(() => gallery.scrollTo({ left: 0, behavior: 'smooth' }), 500);
+    if (atEnd) setTimeout(() => centerIndex(0), 400);
   });
 
-  // keep hop distance fresh on resize
-  const ro = new ResizeObserver(() => {/* recompute via slideW() on use */});
+  // center first slide on load (Safari needed this for snap:center)
+  requestAnimationFrame(() => centerIndex(0));
+
+  // keep measurements fresh on resize
+  const ro = new ResizeObserver(() => {/* measurements are read on-demand */});
   if (firstSlide) ro.observe(firstSlide);
 
-  /* ── LIGHTBOX (no autoplay) ───────────────────────────────── */
+  /* ── LIGHTBOX (unchanged; no autoplay) ───────────────────── */
   const modalEl    = document.getElementById('uiuxModal');
   const metaEl     = document.getElementById('uiuxMeta');
   const capEl      = document.getElementById('uiuxCaption');
-  const dlBtn      = document.getElementById('uiuxDownload');
+  const dlBtn      = document.getElementById('uiuxDownload'); // optional; may be null
   const slidesWrap = document.getElementById('uiuxSlides');
 
   if (!modalEl || !window.bootstrap) return;
   const bsModal = new bootstrap.Modal(modalEl);
 
-  // collect items (src + captions) from the strip
   const items = slides.map(fig => {
     const img = fig.querySelector('img');
     const h3  = fig.querySelector('figcaption h3');
@@ -1269,7 +1282,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initialSlide: Math.max(0, Math.min(initialIndex, items.length - 1)),
         zoom: { maxRatio: 3 },
         keyboard: { enabled: true },
-        // ⛔ no autoplay in fullscreen
         pagination: { el: modalEl.querySelector('.swiper-pagination'), clickable: true },
         navigation: {
           nextEl: modalEl.querySelector('.swiper-button-next'),
@@ -1282,28 +1294,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function fileNameFrom(url) {
-    try {
+  function fileNameFrom(url){
+    try{
       const clean = url.split('#')[0].split('?')[0];
-      const last = clean.substring(clean.lastIndexOf('/') + 1) || 'image';
+      const last = clean.substring(clean.lastIndexOf('/')+1) || 'image';
       return last.includes('.') ? last : (last + '.png');
-    } catch { return 'image.png'; }
+    }catch{ return 'image.png'; }
   }
 
-  // ⭐ bulletproof download (no new tab): draw to canvas → blob → save
-  function downloadViaCanvas(url, name) {
+  async function downloadViaCanvas(url, name){
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = 'anonymous';        // safe if same-origin or CORS allowed
+      img.crossOrigin = 'anonymous';
       img.onload = () => {
-        try {
+        try{
           const canvas = document.createElement('canvas');
           canvas.width  = img.naturalWidth || img.width;
           canvas.height = img.naturalHeight || img.height;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0);
           canvas.toBlob((blob) => {
-            if (!blob) return reject(new Error('Canvas toBlob failed'));
+            if(!blob) return reject(new Error('Canvas toBlob failed'));
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = name || 'image.png';
@@ -1313,19 +1324,17 @@ document.addEventListener('DOMContentLoaded', () => {
             a.remove();
             resolve();
           }, 'image/png', 0.96);
-        } catch (e) { reject(e); }
+        }catch(e){ reject(e); }
       };
       img.onerror = () => reject(new Error('Image load failed'));
-      // make absolute to avoid relative path oddities
       img.src = new URL(url, location.href).href;
     });
   }
 
-  // fallback if canvas route fails (e.g., strict CORS)
-  async function downloadFallback(url, name) {
-    try {
-      const res = await fetch(url, { mode: 'cors' });
-      if (!res.ok) throw new Error('Network error');
+  async function downloadFallback(url, name){
+    try{
+      const res = await fetch(url, { mode:'cors' });
+      if(!res.ok) throw new Error('Network error');
       const blob = await res.blob();
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -1334,8 +1343,7 @@ document.addEventListener('DOMContentLoaded', () => {
       a.click();
       URL.revokeObjectURL(a.href);
       a.remove();
-    } catch {
-      // last resort: still force a download attempt (may prompt open in some browsers)
+    }catch{
       const a = document.createElement('a');
       a.href = url;
       a.download = name || fileNameFrom(url);
@@ -1345,38 +1353,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  async function downloadCurrent() {
+  async function downloadCurrent(){
     const idx = swiper ? swiper.realIndex : 0;
     const it  = items[idx] || items[0];
     const url = new URL(it.src, location.href).href;
     const name = fileNameFrom(url);
-    try {
-      await downloadViaCanvas(url, name);
-    } catch {
-      await downloadFallback(url, name);
-    }
+    try{ await downloadViaCanvas(url, name); }
+    catch{ await downloadFallback(url, name); }
   }
 
-  function updateUI() {
-    if (!swiper) return;
-    updateUIWithIndex(swiper.realIndex);
-  }
+  function updateUI(){ if(!swiper) return; updateUIWithIndex(swiper.realIndex); }
 
-  function updateUIWithIndex(i) {
+  function updateUIWithIndex(i){
     const it = items[i] || items[0];
     capEl.textContent = it.title ? `${it.title}${it.desc ? ' — ' + it.desc : ''}` : (it.desc || '');
-    metaEl.textContent = `${(i + 1)} / ${items.length}`;
-
-    // wire direct download to current slide
-    if (dlBtn) {
-      dlBtn.onclick = (ev) => { ev.preventDefault(); downloadCurrent(); };
-    }
-
+    metaEl.textContent = `${(i+1)} / ${items.length}`;
+    if (dlBtn) dlBtn.onclick = (ev) => { ev.preventDefault(); downloadCurrent(); };
     const bar = modalEl.querySelector('.uiux-progress span');
     if (bar) bar.style.width = `${((i + 1) / items.length) * 100}%`;
   }
 
-  // open on click / Enter
   slides.forEach((fig, idx) => {
     const open = () => { buildSlides(idx); bsModal.show(); };
     fig.addEventListener('click', open);
@@ -1385,13 +1381,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // cleanup on hide
   modalEl.addEventListener('hidden.bs.modal', () => {
-    try { swiper?.destroy(true, true); } catch {}
+    try{ swiper?.destroy(true, true); }catch{}
     swiper = null;
     slidesWrap.innerHTML = '';
   });
 });
+
 
 
 /* ─── HERO ROBOT GREETING (click-to-speak only) ─── */
