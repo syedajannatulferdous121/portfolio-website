@@ -651,44 +651,49 @@ data-video="https://youtu.be/1eFzQdk27HA?si=7A1luSoj8qPXrZcO">
   <div class="uiux-gallery-container">
     <button class="uiux-nav uiux-prev" aria-label="Previous slide">‹</button>
 
-    <div class="uiux-gallery" aria-label="UI/UX gallery">
-      <!-- Each figure is focusable & opens the lightbox -->
-      <figure class="uiux-slide" role="button" tabindex="0" data-index="0">
-        <img src="images/ui/ui1.png" alt="Fin-Tech Poster" data-full="images/ui/ui1.png">
-        <figcaption>
-          <h3>Enjoyable Learning Cover</h3>
-          <p>Figma • Illustrator</p>
-        </figcaption>
-      </figure>
+    <!-- ⬇️ REPLACED: this div is now a Swiper instance -->
+    <div class="uiux-gallery swiper" id="uiuxStrip" aria-label="UI/UX gallery">
+      <div class="swiper-wrapper">
+        <figure class="uiux-slide swiper-slide" role="button" tabindex="0" data-index="0">
+          <img src="images/ui/ui1.png" alt="Fin-Tech Poster" data-full="images/ui/ui1.png">
+          <figcaption>
+            <h3>Enjoyable Learning Cover</h3>
+            <p>Figma • Illustrator</p>
+          </figcaption>
+        </figure>
 
-      <figure class="uiux-slide" role="button" tabindex="0" data-index="1">
-        <img src="images/ui/ui2.png" alt="Analytics Dashboard" data-full="images/ui/ui2.png">
-        <figcaption>
-          <h3>Interactive Prototype of E-Learning App</h3>
-          <p>Figma • Adobe Illustrator • React</p>
-        </figcaption>
-      </figure>
+        <figure class="uiux-slide swiper-slide" role="button" tabindex="0" data-index="1">
+          <img src="images/ui/ui2.png" alt="Analytics Dashboard" data-full="images/ui/ui2.png">
+          <figcaption>
+            <h3>Interactive Prototype of E-Learning App</h3>
+            <p>Figma • Adobe Illustrator • React</p>
+          </figcaption>
+        </figure>
 
-      <figure class="uiux-slide" role="button" tabindex="0" data-index="2">
-        <img src="images/ui/ui3.png" alt="Conference Poster" data-full="images/ui/ui3.png">
-        <figcaption>
-          <h3>Scala Computer Club T-Shirt Design</h3>
-          <p>Canva • Photoshop</p>
-        </figcaption>
-      </figure>
+        <figure class="uiux-slide swiper-slide" role="button" tabindex="0" data-index="2">
+          <img src="images/ui/ui3.png" alt="Conference Poster" data-full="images/ui/ui3.png">
+          <figcaption>
+            <h3>Scala Computer Club T-Shirt Design</h3>
+            <p>Canva • Photoshop</p>
+          </figcaption>
+        </figure>
 
-      <figure class="uiux-slide" role="button" tabindex="0" data-index="3">
-        <img src="images/ui/ui5.png" alt="Mobile App Flow" data-full="images/ui/ui5.png">
-        <figcaption>
-          <h3>Med-Care Mobile Flow</h3>
-          <p>FigJam • ProtoPie</p>
-        </figcaption>
-      </figure>
+        <figure class="uiux-slide swiper-slide" role="button" tabindex="0" data-index="3">
+          <img src="images/ui/ui5.png" alt="Mobile App Flow" data-full="images/ui/ui5.png">
+          <figcaption>
+            <h3>Med-Care Mobile Flow</h3>
+            <p>FigJam • ProtoPie</p>
+          </figcaption>
+        </figure>
+      </div>
     </div>
+    <!-- ⬆️ END replacement -->
 
     <button class="uiux-nav uiux-next" aria-label="Next slide">›</button>
   </div>
 </section>
+<!-- ╰────────────────────────────────────────────────────────╯ -->
+
 <!-- ╰────────────────────────────────────────────────────────╯ -->
 <!-- ╭─ UI/UX Lightbox Modal (Swiper + Zoom) ─────────────────╮ -->
 <!-- ╭─ UI/UX Lightbox Modal (no autoplay, direct download) ─────────╮ -->
@@ -1187,13 +1192,13 @@ data-video="https://youtu.be/1eFzQdk27HA?si=7A1luSoj8qPXrZcO">
 <script>
 /* UI/UX gallery — make the strip a Swiper (modal remains unchanged) */
 document.addEventListener('DOMContentLoaded', () => {
-  const gallery   = document.querySelector('.uiux-gallery');
-  const prevBtn   = document.querySelector('.uiux-prev');
-  const nextBtn   = document.querySelector('.uiux-next');
-  let   figures   = Array.from(document.querySelectorAll('.uiux-slide'));
+  const gallery = document.querySelector('.uiux-gallery'); // the existing wrapper in your HTML
+  const prevBtn = document.querySelector('.uiux-prev');
+  const nextBtn = document.querySelector('.uiux-next');
+  let figures   = Array.from(document.querySelectorAll('.uiux-slide'));
   if (!gallery || !figures.length) return;
 
-  /* ---------- Build a tiny Swiper for the strip (no HTML edits needed) ---------- */
+  /* ---------- Build a Swiper strip (no HTML edits needed) ---------- */
   // Create the Swiper DOM scaffold and move your <figure> cards inside
   const strip = document.createElement('div');
   strip.className = 'swiper uiux-strip';
@@ -1205,24 +1210,36 @@ document.addEventListener('DOMContentLoaded', () => {
   gallery.innerHTML = '';
   gallery.appendChild(strip);
 
-  // init Swiper (we reuse the same library you already load for the modal)
-  const stripSwiper = new Swiper('.uiux-strip', {
-    slidesPerView: 1,
-    spaceBetween: 16,                // ≈ 1rem gap
-    centeredSlides: true,
+  // init Swiper (same library you already load for the modal)
+  const stripSwiper = new Swiper(strip, {
+    // IMPORTANT: these options eliminate the “blank gap” and keep autoplay smooth
+    slidesPerView: 'auto',        // cards use their own width (set in CSS)
+    spaceBetween: 16,             // exact gap between cards
+    centeredSlides: false,        // avoid side gutters causing blank areas
+    roundLengths: true,           // Safari rounding fix (no subpixel gaps)
     loop: figures.length > 1,
-    navigation: { nextEl: nextBtn, prevEl: prevBtn },
+    loopedSlides: figures.length, // enough clones
+    loopAdditionalSlides: figures.length,
+    watchSlidesProgress: true,
+    observer: true,
+    observeParents: true,
+
+    speed: 600,
     keyboard: { enabled: true },
-    autoplay: { delay: 4000, disableOnInteraction: true, pauseOnMouseEnter: true },
-    speed: 650,
-    breakpoints: {
-      540:  { slidesPerView: 1.1 },
-      768:  { slidesPerView: 1.25 },
-      1024: { slidesPerView: 1.5  }
-    }
+
+    navigation: { nextEl: nextBtn, prevEl: prevBtn },
+
+    autoplay: figures.length > 1 ? {
+      delay: 3000,
+      disableOnInteraction: false,  // keep autoplay after manual nav
+      pauseOnMouseEnter: true
+    } : false,
+
+    // Optional: tiny ease for smoother perception
+    // (Swiper uses CSS transitions; no extra lib needed)
   });
 
-  /* ---------- Lightbox (same as before, just uses the moved figures) ---------- */
+  /* ---------- Lightbox (same as before, now reads moved figures) ---------- */
   figures = Array.from(document.querySelectorAll('.uiux-slide')); // after move
   const modalEl    = document.getElementById('uiuxModal');
   const metaEl     = document.getElementById('uiuxMeta');
@@ -1287,7 +1304,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }catch{ return 'image.png'; }
   }
 
-  // download helpers (same behaviour you had)
+  // download helpers (unchanged behaviour)
   function downloadViaCanvas(url, name){
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -1353,6 +1370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const it = items[i] || items[0];
     capEl.textContent = it.title ? `${it.title}${it.desc ? ' — ' + it.desc : ''}` : (it.desc || '');
     metaEl.textContent = `${(i+1)} / ${items.length}`;
+    const dlBtn = document.getElementById('uiuxDownload');
     if (dlBtn) dlBtn.onclick = (ev) => { ev.preventDefault(); downloadCurrent(); };
     const bar = modalEl.querySelector('.uiux-progress span');
     if (bar) bar.style.width = `${((i + 1) / items.length) * 100}%`;
