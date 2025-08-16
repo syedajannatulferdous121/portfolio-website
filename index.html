@@ -1185,54 +1185,50 @@ data-video="https://youtu.be/1eFzQdk27HA?si=7A1luSoj8qPXrZcO">
 </footer>
 
 <script>
-/* UI/UX gallery — make the strip a Swiper (modal remains unchanged) */
+/* UI/UX gallery — use Swiper for the strip (loop + autoplay), keep your modal */
 document.addEventListener('DOMContentLoaded', () => {
-  const gallery   = document.querySelector('.uiux-gallery');
-  const prevBtn   = document.querySelector('.uiux-prev');
-  const nextBtn   = document.querySelector('.uiux-next');
-  let   figures   = Array.from(document.querySelectorAll('.uiux-slide'));
-  if (!gallery || !figures.length) return;
+  const stripEl = document.querySelector('.uiux-gallery');
+  const prevBtn = document.querySelector('.uiux-prev');
+  const nextBtn = document.querySelector('.uiux-next');
+  const figures = Array.from(stripEl?.querySelectorAll('.uiux-slide') || []);
+  if (!stripEl || !figures.length) return;
 
-  /* ---------- Build a tiny Swiper for the strip (no HTML edits needed) ---------- */
-  // Create the Swiper DOM scaffold and move your <figure> cards inside
-  const strip = document.createElement('div');
-  strip.className = 'swiper uiux-strip';
-  const wrap = document.createElement('div');
-  wrap.className = 'swiper-wrapper';
-  strip.appendChild(wrap);
+  /* ---------- 1) Turn the strip into a Swiper ---------- */
+  // Build the required wrapper once (no HTML change needed)
+  stripEl.classList.add('swiper', 'uiux-strip');
+  const wrapper = document.createElement('div');
+  wrapper.className = 'swiper-wrapper';
+  figures.forEach(fig => {
+    fig.classList.add('swiper-slide');   // figure itself becomes a slide
+    wrapper.appendChild(fig);
+  });
+  stripEl.appendChild(wrapper);
 
-  figures.forEach(fig => { fig.classList.add('swiper-slide'); wrap.appendChild(fig); });
-  gallery.innerHTML = '';
-  gallery.appendChild(strip);
-
-  // init Swiper (we reuse the same library you already load for the modal)
-  const stripSwiper = new Swiper('.uiux-strip', {
-    slidesPerView: 1,
-    spaceBetween: 16,                // ≈ 1rem gap
-    centeredSlides: true,
+  // Spin up Swiper for the strip
+  const stripSwiper = new Swiper(stripEl, {
     loop: figures.length > 1,
-    navigation: { nextEl: nextBtn, prevEl: prevBtn },
-    keyboard: { enabled: true },
-    autoplay: { delay: 4000, disableOnInteraction: true, pauseOnMouseEnter: true },
+    loopAdditionalSlides: 2,
+    slidesPerView: 'auto',
+    centeredSlides: true,
+    spaceBetween: 16,
     speed: 650,
-    breakpoints: {
-      540:  { slidesPerView: 1.1 },
-      768:  { slidesPerView: 1.25 },
-      1024: { slidesPerView: 1.5  }
-    }
+    navigation: { nextEl: nextBtn, prevEl: prevBtn },
+    autoplay: figures.length > 1 ? {
+      delay: 3500,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true
+    } : false,
+    keyboard: { enabled: true }
   });
 
-  /* ---------- Lightbox (same as before, just uses the moved figures) ---------- */
-  figures = Array.from(document.querySelectorAll('.uiux-slide')); // after move
+  /* ---------- 2) Lightbox modal (your design, no autoplay) ---------- */
   const modalEl    = document.getElementById('uiuxModal');
   const metaEl     = document.getElementById('uiuxMeta');
   const capEl      = document.getElementById('uiuxCaption');
-  const dlBtn      = document.getElementById('uiuxDownload'); // may be null
+  const dlBtn      = document.getElementById('uiuxDownload');
   const slidesWrap = document.getElementById('uiuxSlides');
 
-  if (!modalEl || !window.bootstrap) return;
-  const bsModal = new bootstrap.Modal(modalEl);
-
+  // Build items from the *original* figures only (ignore Swiper clones)
   const items = figures.map(fig => {
     const img = fig.querySelector('img');
     const h3  = fig.querySelector('figcaption h3');
@@ -1244,136 +1240,145 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   });
 
-  let swiper = null;
+  if (modalEl && window.bootstrap) {
+    const bsModal = new bootstrap.Modal(modalEl);
+    let swiper = null;
 
-  function buildSlides(initialIndex = 0){
-    slidesWrap.innerHTML = '';
-    const frag = document.createDocumentFragment();
-    items.forEach(it => {
-      const slide = document.createElement('div');
-      slide.className = 'swiper-slide';
-      slide.innerHTML = `
-        <div class="swiper-zoom-container">
-          <img src="${it.src}" alt="${it.title || 'UI/UX image'}">
-        </div>`;
-      frag.appendChild(slide);
-    });
-    slidesWrap.appendChild(frag);
-
-    if (window.Swiper){
-      swiper = new Swiper('#uiuxSwiper', {
-        loop: items.length > 1,
-        speed: 700,
-        initialSlide: Math.max(0, Math.min(initialIndex, items.length - 1)),
-        zoom: { maxRatio: 3 },
-        keyboard: { enabled: true },
-        pagination: { el: modalEl.querySelector('.swiper-pagination'), clickable: true },
-        navigation: {
-          nextEl: modalEl.querySelector('.swiper-button-next'),
-          prevEl: modalEl.querySelector('.swiper-button-prev')
-        },
-        on: { init: updateUI, slideChange: updateUI }
+    function buildSlides(initialIndex = 0) {
+      slidesWrap.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      items.forEach(it => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.innerHTML = `
+          <div class="swiper-zoom-container">
+            <img src="${it.src}" alt="${it.title || 'UI/UX image'}">
+          </div>`;
+        frag.appendChild(slide);
       });
-    } else {
-      updateUIWithIndex(initialIndex);
+      slidesWrap.appendChild(frag);
+
+      if (window.Swiper) {
+        swiper = new Swiper('#uiuxSwiper', {
+          loop: items.length > 1,
+          speed: 700,
+          initialSlide: Math.max(0, Math.min(initialIndex, items.length - 1)),
+          zoom: { maxRatio: 3 },
+          keyboard: { enabled: true },
+          pagination: { el: modalEl.querySelector('.swiper-pagination'), clickable: true },
+          navigation: {
+            nextEl: modalEl.querySelector('.swiper-button-next'),
+            prevEl: modalEl.querySelector('.swiper-button-prev')
+          },
+          on: { init: updateUI, slideChange: updateUI }
+        });
+      } else {
+        updateUIWithIndex(initialIndex);
+      }
     }
-  }
 
-  function fileNameFrom(url){
-    try{
-      const clean = url.split('#')[0].split('?')[0];
-      const last = clean.substring(clean.lastIndexOf('/') + 1) || 'image';
-      return last.includes('.') ? last : (last + '.png');
-    }catch{ return 'image.png'; }
-  }
+    function fileNameFrom(url) {
+      try {
+        const clean = url.split('#')[0].split('?')[0];
+        const last = clean.substring(clean.lastIndexOf('/') + 1) || 'image';
+        return last.includes('.') ? last : (last + '.png');
+      } catch { return 'image.png'; }
+    }
 
-  // download helpers (same behaviour you had)
-  function downloadViaCanvas(url, name){
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        try{
-          const canvas = document.createElement('canvas');
-          canvas.width  = img.naturalWidth || img.width;
-          canvas.height = img.naturalHeight || img.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
-          canvas.toBlob((blob) => {
-            if (!blob) return reject(new Error('Canvas toBlob failed'));
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = name || 'image.png';
-            document.body.appendChild(a);
-            a.click();
-            URL.revokeObjectURL(a.href);
-            a.remove();
-            resolve();
-          }, 'image/png', 0.96);
-        }catch(e){ reject(e); }
-      };
-      img.onerror = () => reject(new Error('Image load failed'));
-      img.src = new URL(url, location.href).href;
+    function downloadViaCanvas(url, name) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width  = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob((blob) => {
+              if (!blob) return reject(new Error('Canvas toBlob failed'));
+              const a = document.createElement('a');
+              a.href = URL.createObjectURL(blob);
+              a.download = name || 'image.png';
+              document.body.appendChild(a);
+              a.click();
+              URL.revokeObjectURL(a.href);
+              a.remove();
+              resolve();
+            }, 'image/png', 0.96);
+          } catch (e) { reject(e); }
+        };
+        img.onerror = () => reject(new Error('Image load failed'));
+        img.src = new URL(url, location.href).href;
+      });
+    }
+
+    async function downloadFallback(url, name) {
+      try {
+        const res = await fetch(url, { mode: 'cors' });
+        if (!res.ok) throw new Error('Network error');
+        const blob = await res.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = name || fileNameFrom(url);
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(a.href);
+        a.remove();
+      } catch {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = name || fileNameFrom(url);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+    }
+
+    async function downloadCurrent() {
+      const idx = swiper ? swiper.realIndex : 0;
+      const it  = items[idx] || items[0];
+      const url = new URL(it.src, location.href).href;
+      const name = fileNameFrom(url);
+      try {
+        await downloadViaCanvas(url, name);
+      } catch {
+        await downloadFallback(url, name);
+      }
+    }
+
+    function updateUI() {
+      if (!swiper) return;
+      updateUIWithIndex(swiper.realIndex);
+    }
+
+    function updateUIWithIndex(i) {
+      const it = items[i] || items[0];
+      capEl.textContent = it.title ? `${it.title}${it.desc ? ' — ' + it.desc : ''}` : (it.desc || '');
+      metaEl.textContent = `${(i + 1)} / ${items.length}`;
+      if (dlBtn) dlBtn.onclick = (ev) => { ev.preventDefault(); downloadCurrent(); };
+      const bar = modalEl.querySelector('.uiux-progress span');
+      if (bar) bar.style.width = `${((i + 1) / items.length) * 100}%`;
+    }
+
+    // open modal from *original* slides only (ignore Swiper's duplicates)
+    figures.forEach((fig, idx) => {
+      const open = () => { buildSlides(idx); bsModal.show(); };
+      fig.addEventListener('click', open);
+      fig.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      });
+    });
+
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      try { swiper?.destroy(true, true); } catch {}
+      swiper = null;
+      slidesWrap.innerHTML = '';
     });
   }
-
-  async function downloadFallback(url, name){
-    try{
-      const res = await fetch(url, { mode:'cors' });
-      if(!res.ok) throw new Error('Network error');
-      const blob = await res.blob();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = name || fileNameFrom(url);
-      document.body.appendChild(a);
-      a.click();
-      URL.revokeObjectURL(a.href);
-      a.remove();
-    }catch{
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = name || fileNameFrom(url);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-  }
-
-  async function downloadCurrent(){
-    const idx = swiper ? swiper.realIndex : 0;
-    const it  = items[idx] || items[0];
-    const url = new URL(it.src, location.href).href;
-    const name = fileNameFrom(url);
-    try{ await downloadViaCanvas(url, name); }
-    catch{ await downloadFallback(url, name); }
-  }
-
-  function updateUI(){ if (!swiper) return; updateUIWithIndex(swiper.realIndex); }
-  function updateUIWithIndex(i){
-    const it = items[i] || items[0];
-    capEl.textContent = it.title ? `${it.title}${it.desc ? ' — ' + it.desc : ''}` : (it.desc || '');
-    metaEl.textContent = `${(i+1)} / ${items.length}`;
-    if (dlBtn) dlBtn.onclick = (ev) => { ev.preventDefault(); downloadCurrent(); };
-    const bar = modalEl.querySelector('.uiux-progress span');
-    if (bar) bar.style.width = `${((i + 1) / items.length) * 100}%`;
-  }
-
-  // Open modal on click / Enter
-  figures.forEach((fig, idx) => {
-    const open = () => { buildSlides(idx); bsModal.show(); };
-    fig.addEventListener('click', open);
-    fig.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-    });
-  });
-
-  // cleanup on hide
-  modalEl.addEventListener('hidden.bs.modal', () => {
-    try{ swiper?.destroy(true, true); }catch{}
-    swiper = null;
-    slidesWrap.innerHTML = '';
-  });
 });
+
 
 
 
