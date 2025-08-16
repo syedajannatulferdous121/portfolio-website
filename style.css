@@ -2156,8 +2156,8 @@ color: var(--bs-nav-pills-link-active-color) !important;
 .wheelSwiper .swiper-slide img{ width:100%; height:100%; object-fit:cover; }
 
 
-/* ─── UI/UX Snap-Gallery ───────────────────────── */
-.uiux-gallery-container {
+/* ─── UI/UX Snap-Gallery (fixed) ───────────────────────── */
+.uiux-gallery-container{
   position: relative;
   max-width: 1200px;
   margin: auto;
@@ -2166,98 +2166,81 @@ color: var(--bs-nav-pills-link-active-color) !important;
   align-items: center;
 }
 
-.uiux-gallery {
+/* Use a CSS var for card width so we can also compute side padding */
+.uiux-gallery{
+  --slide-w: clamp(300px, 80vw, 560px);
   display: flex;
-  gap: 1rem;                 /* ← keep this in sync with +16 px hop below */
-  overflow-x: hidden;
+  gap: 1rem;
+  overflow-x: auto;                 /* ← was hidden (prevents scrolling) */
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   position: relative;
+
+  /* Reserve space on both sides so the first/last slide can center */
+  padding-inline: calc((100% - var(--slide-w)) / 2);
+  scroll-padding-inline: calc((100% - var(--slide-w)) / 2);
 }
 
 /* Equal-size card for every slide */
-.uiux-slide {
+.uiux-slide{
   position: relative;
-  flex: 0 0 clamp(300px, 80vw, 560px);  /* 80% viewport peek + max cap */
+  flex: 0 0 var(--slide-w);
   max-width: 560px;
-  aspect-ratio: 16 / 10;                /* 🔥 lock frame size */
+  aspect-ratio: 16 / 10;
   scroll-snap-align: center;
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+  box-shadow: 0 14px 40px rgba(0,0,0,.18);
   background:
     radial-gradient(120% 100% at 50% 50%, #ffffff 0%, #f5f7ff 65%, #eef2ff 100%);
   transition: transform .3s;
 }
-.uiux-slide:hover { transform: translateY(-4px) scale(1.02); }
+.uiux-slide:hover{ transform: translateY(-4px) scale(1.02); }
 
-.uiux-slide img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* Image always fully visible (no crop) */
-.uiux-slide > img {
+/* You may delete the older “.uiux-slide img { width:100%; height:auto }”
+   rule — the absolute version below fully controls sizing. */
+.uiux-slide > img{
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;                 /* ← show entire image */
+  object-fit: contain;              /* show entire image */
   object-position: center;
   image-rendering: -webkit-optimize-contrast;
-  background: transparent;             /* side “letterbox” shows gradient bg */
+  background: transparent;          /* letterbox shows gradient bg */
 }
 
-/* Premium chrome ring around each slide */
-.uiux-slide::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
+.uiux-slide::before{
+  content:"";
+  position:absolute; inset:-1px; border-radius:inherit; padding:1px;
   background: linear-gradient(135deg, #bcd4ff, #ffd3f2);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; 
-          mask-composite: exclude;
-  opacity: .6;
-  pointer-events: none;
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity:.6; pointer-events:none;
 }
 
-.uiux-slide figcaption {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.55);
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
+.uiux-slide figcaption{
+  position:absolute; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,.55); color:#fff; padding:1rem; text-align:center;
   backdrop-filter: blur(4px);
 }
-.uiux-slide h3 { margin: 0 0 .4rem; font-size: 1.1rem; }
-.uiux-slide p  { margin: 0; font-size: .9rem; opacity: .85; }
+.uiux-slide h3{ margin:0 0 .4rem; font-size:1.1rem; }
+.uiux-slide p{  margin:0; font-size:.9rem; opacity:.85; }
 
-
-/* Prev / Next buttons */
-.uiux-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--brand-3);
-  color: #fff;
-  border: none;
-  width: 2.5rem; height: 2.5rem;
-  font-size: 1.8rem; line-height: 1;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: background .3s;
+/* Prev / Next buttons (unchanged) */
+.uiux-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background: var(--brand-3); color:#fff; border:none;
+  width:2.5rem; height:2.5rem; font-size:1.8rem; line-height:1;
+  border-radius:50%; cursor:pointer; z-index:10;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.2); transition:background .3s;
 }
-.uiux-nav:hover { background: var(--brand-2); }
-.uiux-prev { left: 0.5rem; }
-.uiux-next { right: 0.5rem; }
+.uiux-nav:hover{ background: var(--brand-2); }
+.uiux-prev{ left:.5rem; }
+.uiux-next{ right:.5rem; }
+
 
 
 /* ─── UI / UX • Posters & Visuals stripe ───────────────────────── */
