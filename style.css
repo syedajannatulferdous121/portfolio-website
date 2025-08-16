@@ -2168,6 +2168,7 @@ color: var(--bs-nav-pills-link-active-color) !important;
 
 .uiux-gallery{
   position: relative;
+  overflow: hidden;
   width: 100%;
 }
 
@@ -2181,6 +2182,7 @@ color: var(--bs-nav-pills-link-active-color) !important;
   max-width: 560px;
   aspect-ratio: 16 / 10;
   border-radius: 1rem;
+
   overflow: hidden;
   box-shadow: 0 14px 40px rgba(0,0,0,0.18);
   background:
@@ -2222,8 +2224,9 @@ color: var(--bs-nav-pills-link-active-color) !important;
 
 /* Swiper-specific sizing for the cards in the strip */
 .uiux-gallery .swiper-wrapper{ align-items: stretch; }
-.uiux-gallery .swiper-slide.uiux-slide{
-  width: clamp(300px, 80vw, 560px) !important; /* fixed card width */
+.uiux-gallery .swiper-slide {
+  width: clamp(300px, 80vw, 560px) !important; /* same card width you designed */
+  margin-right: 0 !important;  
 }
 
 /* Prev / Next buttons (unchanged) */
