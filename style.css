@@ -1551,7 +1551,8 @@ background: #3F3D56  !important;   /* solid, no gradient   */
 
 /* ╭─ PROJECTS STRIPE – galaxy tunnel ───────────────────────╮ */
 .proj-hero{
-  position:relative; width:100vw; 
+  position:relative;   width: 100%;
+
   background: linear-gradient(135deg, #1a1f3f 0%, #2b3c7a 100%);
 
   display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -1585,20 +1586,31 @@ padding:3rem 0 3.5rem;         /* top 3 rem · bottom 4.5 rem */
 
 /* grid */
 /* ─── Selected-Projects grid (centre + subtle side gutters) ─────── */
+/* Selected Projects – responsive grid */
 .proj-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
   gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
 
-  /* keep cards centred */
-  width: max-content;          /* shrink-wrap */
-  margin-inline: auto;         /* centre block */
+  /* ⬇ centers the whole grid block */
+  width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
 
-  /* NEW ↓  thin left / right breathing room                     */
-  padding-inline: 1rem;        /* ← adjust to taste              */
+  /* ⬇ centers the grid tracks and the items inside each cell */
+  justify-content: center;   /* centers columns within extra space */
+  justify-items: center;     /* centers each .proj-card in its cell */
+  align-items: start;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
 
-  justify-content: center;     /* still useful for short final row */
+/* Single column on very small phones */
+@media (max-width: 520px){
+  .proj-grid{
+    grid-template-columns: 1fr;
+    gap: .9rem;
+  }
 }
 
 
@@ -1909,19 +1921,30 @@ color: var(--bs-nav-pills-link-active-color) !important;
 .proj-card{
   perspective:1000px;
   position:relative;
-  height:300px;
   transform-style:preserve-3d;
   transform-origin:center center;
   transition:transform .2s;
   animation:warpIn .3s cubic-bezier(.22,1.2,.35,1.02) both;
 }
-.proj-card:hover{ transform: rotateY(180deg); }   /* flip */
+/* Make project cards adapt to viewport width */
+.proj-card{
+  height: clamp(220px, 36vw, 300px);   /* scales nicely on mobile → desktop */
+  min-width: 0;                        /* prevents overflow in grid cells */
+  width: 100%;
+  max-width: 280px;          
+}
 
+/* Soft & hard variants inherit and stay fluid */
+.card-soft{ height: clamp(220px, 34vw, 280px); }
+.card-hard{ width: 100%; height: clamp(220px, 34vw, 280px); }
 
+/* Prevent image/text overflow inside cards on small screens */
+.card-face{ min-width: 0; }
+.card-front h3{ padding: .25rem .5rem; }
 
-.card-soft              { height: 280px; }
-@media (min-width: 992px){
-  .card-soft            { height: 250px; }
+/* Contain front images cleanly */
+.card-front img{
+  object-fit: cover;
 }
 
 /* hardware carousel cards */
