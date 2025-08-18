@@ -1613,6 +1613,23 @@ padding:3rem 0 3.5rem;         /* top 3 rem · bottom 4.5 rem */
   }
 }
 
+/* Center the grid only when a pane is active & visible */
+#projects .tab-content > .tab-pane.active.show{
+  display: flex !important;
+  justify-content: center;
+}
+
+/* Keep hidden panes hidden (Bootstrap default, reinforced) */
+#projects .tab-content > .tab-pane:not(.active){
+  display: none !important;
+}
+
+/* Put title, tabs, and grid above .proj-lights / #projTunnel */
+.proj-hero > *:not(.proj-lights):not(#projTunnel){
+  position: relative;
+  z-index: 1;
+}
+
 
 
 
