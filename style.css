@@ -1560,7 +1560,20 @@ padding:3rem 0 3.5rem;         /* top 3 rem · bottom 4.5 rem */
   row-gap:2.5rem;     
     clip-path:inset(0 round 0 0 var(--radius) var(--radius));
   overflow:visible; isolation:isolate;
+    content-visibility: visible;   /* force paint on mobile */
+  contain-intrinsic-size: auto;  /* no fake reserved height */
+  position: relative;            /* new stacking context */
 }
+
+#projTunnel{ z-index: 0; }
+.proj-hero .proj-title,
+.proj-hero .proj-nav,
+.proj-hero .tab-content{ position: relative; z-index: 1; }
+
+/* (belt & braces) make sure the active pane shows even if Bootstrap CSS is trimmed */
+#projTabContent .tab-pane{ display: none; }
+#projTabContent .tab-pane.show.active{ display: block; }
+
 
 /* glowing nebula blobs */
 .proj-lights{
@@ -1614,13 +1627,6 @@ padding:3rem 0 3.5rem;         /* top 3 rem · bottom 4.5 rem */
 }
 
 
-/* Tabs: simple, Bootstrap-compatible */
-#projects .tab-content > .tab-pane { display: none; width: 100%; }
-#projects .tab-content > .tab-pane.active { display: block !important; }
-
-/* Safety for iOS Safari */
-#projects .tab-content,
-#projects .tab-content > .tab-pane { min-width: 0; min-height: 0; }
 
 
 
@@ -1930,7 +1936,6 @@ color: var(--bs-nav-pills-link-active-color) !important;
 .proj-card{
   perspective:1000px;
   position:relative;
-  display: block;          /* <— critical */
   transform-style:preserve-3d;
   transform-origin:center center;
   transition:transform .2s;
