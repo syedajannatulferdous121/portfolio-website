@@ -461,20 +461,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*  ▸ re-init tilt + AOS when a project tab is shown  */
-const projTab = document.getElementById("projTabContent");
-projTab.addEventListener("shown.bs.tab", () => {
-  VanillaTilt.init(document.querySelectorAll('#projects [data-tilt]'));
-  AOS.refresh();
+// Re-init effects whenever a Projects tab becomes visible (robust on mobile)
+document.addEventListener('shown.bs.tab', (e) => {
+  if (e.target.closest('#projects')) {
+    VanillaTilt.init(document.querySelectorAll('#projects [data-tilt]'));
+    (AOS.refreshHard?.() || AOS.refresh());
+  }
 });
 
-
-
-
-
-
-  // 2️⃣ Animate proficiency rings when scrolled into view
-  AOS.refresh(); // ensure AOS has initialized
+// Fallback: if no tab-pane is active (some mobile loads), activate the first
+/* ── Projects pills: mobile-safe activation + re-init on tab change ── */
+// 1) Ensure one pane is visible on first paint (iOS sometimes shows none)
+(() => {
+  const wrap = document.getElementById('projTabContent');
+  if (!wrap) return;
+  const active = wrap.querySelector('.tab-pane.show.active');
+  if (!active) {
+    const firstPane = wrap.querySelector('.tab-pane');
+    if (firstPane) {
+      firstPane.classList.add('show', 'active');
+      const btn = document.querySelector(
+        `[data-bs-toggle="pill"][data-bs-target="#${firstPane.id}"]`
+      );
+      btn?.classList.add('active');
+    }
+  }
 })();
+
+// 2) Re-init tilt + refresh AOS whenever Software/Hardware pills switch
+document.addEventListener('shown.bs.tab', (e) => {
+  // Only react to the “Selected Projects” pills
+  if (!e.target.closest('#projects')) return;
+
+  // Re-apply tilt to cards that just became visible
+  try {
+    VanillaTilt.init(document.querySelectorAll('#projects [data-tilt]'));
+  } catch {}
+
+  // Refresh AOS (works across browsers; prefer refreshHard if available)
+  try { (AOS.refreshHard?.() || AOS.refresh()); } catch {}
+});
+
 
 /* fade & pop satellites when the lang-card enters the viewport */
 AOS.init();           // already in your file – leave as is
