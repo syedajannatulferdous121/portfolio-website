@@ -1842,54 +1842,6 @@ const initVideo = (url) => {
   });
 })();
 
-/* ── Selected Projects · mobile visibility + z-index fix ───────── */
-(() => {
-  const sec = document.getElementById('projects');
-  if (!sec) return;
-
-  // Push the background layers behind everything and make them untouchable
-  const tunnel = document.getElementById('projTunnel');
-  const lights = sec.querySelector('.proj-lights');
-  [tunnel, lights].forEach(el => {
-    if (!el) return;
-    el.style.position = el.style.position || 'absolute';
-    el.style.inset = el.style.inset || '0';
-    el.style.zIndex = '0';
-    el.style.pointerEvents = 'none';
-  });
-
-  // Pull real content above the canvas (title, pills, and panes)
-  const title   = sec.querySelector('.proj-title');
-  const nav     = sec.querySelector('.proj-nav');
-  const content = sec.querySelector('#projTabContent');
-  [title, nav, content].forEach(el => {
-    if (!el) return;
-    el.style.position = el.style.position || 'relative';
-    el.style.zIndex = '1';
-  });
-
-  // iOS/Safari sometimes fails to paint the first active pane.
-  // Ensure the default (Software) pane is truly visible.
-  const activeBtn  = sec.querySelector('.proj-nav .nav-link.active');
-  const targetSel  = activeBtn?.getAttribute('data-bs-target');
-  const activePane = targetSel && sec.querySelector(targetSel);
-  if (activePane && !activePane.classList.contains('show')) {
-    activePane.classList.add('show', 'active');
-    activePane.style.display = ''; // clear any hidden inline state
-  }
-
-  // When tabs change, refresh effects and ensure the pane is shown.
-  document.addEventListener('shown.bs.tab', (e) => {
-    if (!e.target.closest('#projects')) return;
-    const sel = e.target.getAttribute('data-bs-target');
-    const pane = sel && sec.querySelector(sel);
-    if (pane) { pane.classList.add('show', 'active'); pane.style.display = ''; }
-
-    // re-init tilt + refresh AOS so cards animate after switching tabs
-    try { VanillaTilt.init(sec.querySelectorAll('[data-tilt]')); } catch {}
-    try { (AOS.refreshHard?.() || AOS.refresh()); } catch {}
-  });
-})();
 
 
 /* === Bottom-to-top rocket with progress ring ===================== */
